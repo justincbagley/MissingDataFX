@@ -74,6 +74,7 @@ Regarding tree files, let me say I'm very much a Bayesian, and my empirical rese
 
 #### Guidelines for input file NAMES
 For simplicity, all filenames supplied to MissingDataFX for a given analysis should have the same basename. A suitable set of files for analysis might look like the following example, where MY_BASENAME is the basename applied to all of the files:  
+
 | Input file type        | Example filename           |
 | :--------------------- |:---------------------------|
 | NEXUS file             | MY_BASENAME.nex            |
