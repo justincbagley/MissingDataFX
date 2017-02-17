@@ -6,7 +6,7 @@
 #   ANALYSES (NODAL SUPPORT, BRANCH LENGTHS)                                             #
 #   Copyright (c)2017 Justin C. Bagley, Universidade de Brasília, Brasília, DF, Brazil.  #
 #   See the README and license files on GitHub (http://github.com/justincbagley) for     #
-#   further information. Last update: February 15, 2017. For questions, please email     #
+#   further information. Last update: February 17, 2017. For questions, please email     #
 #   jcbagley@unb.br.                                                                     #
 ##########################################################################################
 
