@@ -31,16 +31,7 @@ echo "INFO      | $(date) |          Setting working directory to: $MY_PATH "
 	}
 
 echo "INFO      | $(date) |          Reading in input NEXUS file(s)... "
-###### Read in the NEXUS file(s), by getting filenames matching .nex or .NEX patterns. We 
-##--here assume that the current working directory contains **ONLY** 1) the script, plus 
-##--any 2) NEXUS file(s) and 3) BEAST or MrBayes tree files we wish to analyze, plus 4) the
-##--"R" folder containing a modified function for ips. See README and commenting below for 
-##--further details on the other file types; however, for the NEXUS input file, we assume 
-##--that there are no spaces in the filename, and that the file contains only sequence or 
-##--morphological data in simplified NEXUS format--i.e. header followed by a matrix block, 
-##--and no subsequent data/info blocks (e.g. sets or MrBayes blocks). Prior to running 
-##--MissingDataFX, users should check their input NEXUS filenames and contents to ensure that 
-##--they meet these assumptions.
+###### Read in the NEXUS file(s), by getting filenames matching .nex or .NEX patterns.
 
 	MY_NEXUS_FILES="$(ls . | egrep '\.nex|\.NEX')"
 
