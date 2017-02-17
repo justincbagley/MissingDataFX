@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ##########################################################################################
-#                           MissingData v0.1.0, February 2017                            #
+#                          MissingDataFX v0.1.0, February 2017                           #
 #   SHELL SCRIPT FOR CONDUCTING TESTS OF THE EFFECTS OF MISSING DATA ON PHYLOGENETIC     #
 #   ANALYSES (NODAL SUPPORT, BRANCH LENGTHS)                                             #
 #   Copyright (c)2017 Justin C. Bagley, Universidade de Brasília, Brasília, DF, Brazil.  #
@@ -12,16 +12,16 @@
 
 echo "
 ##########################################################################################
-#                           MissingData v0.1.0, February 2017                            #
+#                          MissingDataFX v0.1.0, February 2017                           #
 ##########################################################################################
 "
 
 ######################################## START ###########################################
-echo "INFO      | $(date) | Starting MissingData analysis... "
+echo "INFO      | $(date) | Starting MissingDataFX analysis... "
 echo "INFO      | $(date) | STEP #1: SETUP AND USER INPUT. "
 ###### Set paths and filetypes as different environmental variables:
 	MY_PATH=`pwd -P`				## This script assumes it is being run in a sub-folder
-									## of the MissingData master directory specific to the 
+									## of the MissingDataFX master directory specific to the 
 									## current analysis. Hence, the R directory in the 
 									## distro is relatively located at path "../R/".
 echo "INFO      | $(date) |          Setting working directory to: $MY_PATH "
@@ -39,7 +39,7 @@ echo "INFO      | $(date) |          Reading in input NEXUS file(s)... "
 ##--that there are no spaces in the filename, and that the file contains only sequence or 
 ##--morphological data in simplified NEXUS format--i.e. header followed by a matrix block, 
 ##--and no subsequent data/info blocks (e.g. sets or MrBayes blocks). Prior to running 
-##--MissingData, users should check their input NEXUS filenames and contents to ensure that 
+##--MissingDataFX, users should check their input NEXUS filenames and contents to ensure that 
 ##--they meet these assumptions.
 
 	MY_NEXUS_FILES="$(ls . | egrep '\.nex|\.NEX')"
@@ -199,10 +199,10 @@ summarizeSeqData
 echo "INFO      | $(date) | STEP #4: PRE-PROCESSING MRBAYES CONSENSUS TREE INPUT FILE, IF PRESENT: SPLIT .con.tre FILE, EXTRACT "
 echo "INFO      | $(date) |          TERMINAL BRANCH LENGTHS & THEIR CONFIDENCE INTERVALS, AND CREATE BRANCH LENGTH SUMMARY TABLE. "
 ##--This section helps accomodate consensus tree files with extension "*.con.tre" output 
-##--directly from MrBayes into MissingData analysis. Although functions exist for reading in 
-##--BEAST trees and extracting a table of BEAST node label data in the 'ips' R package, the
-##--only suitable R functions that I've found tailored to MrBayes trees allow reading in the
-##--tree; however, there is no function that summarizes or reads in MrBayes tree statistics.
+##--directly from MrBayes into MissingDataFX analysis. Although functions exist for reading 
+##--in BEAST trees and extracting a table of BEAST node label data in the 'ips' R package,
+##--the only suitable R functions that I've found tailored to MrBayes trees allow reading in
+##--the tree; however, there is no function that summarizes or reads in MrBayes tree statistics.
 ##--So, this section is a necessary evil. It first checks for a MrBayes tree file, and if 
 ##--one is found, it runs my new mbTreeStatMiner script (placed in a function), which
 ##--extracts and links tip label and branch length information from a .con.tre file in 
@@ -313,7 +313,7 @@ echo "INFO      | $(date) |          TABLE (STEP #3) IN WORKING DIR THEN B) TEST
 echo "
 #!/usr/bin/env Rscript
 
-################################## missingDataTester.R ###################################
+################################# missingDataFXTester.R ##################################
 
 ############ I. SETUP
 setwd('$MY_PATH')
@@ -1301,12 +1301,12 @@ write.table(get(ls(pattern='^ALL')), file=sprintf('%s.ALLData.txt',basename), se
 save.image(file='workspace.RData')
 
 ######################################### END ############################################
-" > missingDataTester.r
+" > missingDataFXTester.r
 
 
 ############ IV. FINAL STEPS:
 echo "INFO      | $(date) | STEP #6: RUN THE R SCRIPT (WHICH ALSO SAVES RESULTS TO FILE). "
-R CMD BATCH ./missingDataTester.R
+R CMD BATCH ./missingDataFXTester.R
 
 
 echo "INFO      | $(date) | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. "
@@ -1339,7 +1339,7 @@ echo "INFO      | $(date) | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSA
 	rm ./*_missingChar.txt
 	
 echo "INFO      | $(date) | Done analyzing the amount and potential effects of missing data on phylogenetic support and branch "
-echo "INFO      | $(date) | lengths using MissingData. "
+echo "INFO      | $(date) | lengths using MissingDataFX. "
 echo "INFO      | $(date) | Bye.
 "
 #
