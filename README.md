@@ -63,11 +63,11 @@ Code in the MissingDataFX repository depends on R and a series of R packages, as
 :warning: MissingDataFX code assumes that you are running within a sub-folder specific to your analysis, located within the MissingDataFX-master distro folder. **Importantly**, as a result of this directory structure, the "R" folder from the distro, which contains a modified function for ips, will be located at the relative path "../R/". See README and in-script commenting for further details on file types and instructions for running basic analyses. Ideally, users will run MissingDataFX on multiple NEXUS-tree file combinations, for example 1) mtDNA only, 2) nuclear DNA only, 3) morphological characters only, and 4) all data combined--or a 'combined data' (mtDNA + nuclear) or 'total-evidence' (sequence + morphology) matrix and tree. Each of these analyses would be run within a separate sub-folder in the master distro folder.
 
 ### Input files and filenames
-:warning: The main input files for MissingDataFX are NEXUS files, tree files, and 'drop' files. **This software assumes that the current working directory (i.e. sub-folder) for any particular run contains *ONLY*: 
-1) the MissingDataFX.sh script (which you copy and paste into the dir), 
-2) the input NEXUS file, 
-3) the input BEAST or MrBayes tree file that you wish to analyze, and/or 
-4) an *optional* 'drop file' listing taxa to be pruned from the tree prior to analysis. 
+:warning: The main input files for MissingDataFX are NEXUS files, tree files, and 'drop' files. **This software assumes that the current working directory (i.e. sub-folder) for any particular run contains *ONLY*:** 
+1) **the MissingDataFX.sh script (which you copy and paste into the dir), **
+2) **the input NEXUS file, **
+3) **the input BEAST or MrBayes tree file that you wish to analyze, and/or **
+4) **an *optional* 'drop file' listing taxa to be pruned from the tree prior to analysis.** 
 
 Please follow the guidelines below when constructing input files for analysis.
 
