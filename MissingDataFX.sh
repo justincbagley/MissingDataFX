@@ -350,10 +350,10 @@ echo "INFO      | $(date) |          Encountered one or more '.tree' files. Test
 						perl -pe 's/^\"$//g' > ./${MY_CONSENSUS_BASENAME}_term_brL_Summary.txt
 
 						##--Remove all temporary and intermediary files from the working directory:
-						## rm ./taxLabels.tmp
-						## rm ./${MY_CONSENSUS_BASENAME}_treeDataBlock1.txt
-						## rm ./${MY_CONSENSUS_BASENAME}_taxLabels.txt ./${MY_CONSENSUS_BASENAME}_tipBranchData3.txt ./${MY_CONSENSUS_BASENAME}_tipBranchData4.txt
-						## rm ./header.txt ./${MY_CONSENSUS_BASENAME}_tipBranchData2.txt ./${MY_CONSENSUS_BASENAME}_tipBranchData5.txt ./${MY_CONSENSUS_BASENAME}_tipBranchData6.txt
+						rm ./taxLabels.tmp
+						rm ./${MY_CONSENSUS_BASENAME}_treeDataBlock1.txt
+						rm ./${MY_CONSENSUS_BASENAME}_taxLabels.txt ./${MY_CONSENSUS_BASENAME}_tipBranchData3.txt ./${MY_CONSENSUS_BASENAME}_tipBranchData4.txt
+						rm ./header.txt ./${MY_CONSENSUS_BASENAME}_tipBranchData2.txt ./${MY_CONSENSUS_BASENAME}_tipBranchData5.txt ./${MY_CONSENSUS_BASENAME}_tipBranchData6.txt
 
 					done
 				)
