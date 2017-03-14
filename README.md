@@ -153,19 +153,20 @@ During the development of this software, J.C.B. received stipend support from a 
 - Wiens JJ, Fetzner JW, Parkinson CL, Reeder TW (2005) Hylid frog phylogeny and sampling strategies for speciose clades. Systematic Biology, 54, 719-748.
 
 ## TODO LIST
-Current:
+**Current:**
 
 - Provide more graphical output options:
- * Summaries of data/missing data proportions for different data blocks (though it's difficult to carry names of blocks/partitions into R).
- * Linear relationships between posterior support and data characteristics, at the level of blocks/partitions rather than individual nodes. 
+ o Summaries of data/missing data proportions for different data blocks (though it's difficult to carry names of blocks/partitions into R).
+ o Linear relationships between posterior support and data characteristics, at the level of blocks/partitions rather than individual nodes. 
 - Modify to accomodate and extract parameters from annotated maximum-likelihood trees from programs like RAxML (check extent and format of branch/node labels on ML trees from different programs).
 - Add screenshots of R analyses, as well as example text and graphical output produced by the software.
 - Allow MrBayes tree files renamed with extension '.tree' (currently automatically converts '.con.tre' to '.tree').
 
-Recently finished/fixed:
+**Recently finished/fixed:**
 
 - Solve two input file problem--accomodate MrBayes trees, in addition to BEAST MCC trees. **DONE!** :white_check_mark:
+- Specifically accomodate MrBayes tree files with '.con.tre' or '.tree' extensions. **DONE!** :white_check_mark:
 - Correct issue in R code with 'ALL data' dataframe name for the non-drop file case. **DONE!** :white_check_mark:
 
-February 17, 2017
+March 14, 2017
 Justin C. Bagley, Tuscaloosa, AL, USA
