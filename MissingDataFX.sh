@@ -20,7 +20,7 @@ echo "
 echo "INFO      | $(date) | Starting MissingDataFX analysis... "
 echo "INFO      | $(date) | STEP #1: SETUP AND USER INPUT. "
 ###### Set paths and filetypes as different environmental variables:
-	MY_PATH=$(pwd -P)				## This script assumes it is being run in a sub-folder
+	MY_PATH=`pwd -P`				## This script assumes it is being run in a sub-folder
 									## of the MissingDataFX master directory specific to the 
 									## current analysis. Hence, the R directory in the 
 									## distro is relatively located at path "../R/".
