@@ -6,7 +6,7 @@
 #   ANALYSES (NODAL SUPPORT, BRANCH LENGTHS)                                             #
 #   Copyright (c)2017 Justin C. Bagley, Universidade de Brasília, Brasília, DF, Brazil.  #
 #   See the README and license files on GitHub (http://github.com/justincbagley) for     #
-#   further information. Last update: March 13, 2017. For questions, please email        #
+#   further information. Last update: March 17, 2017. For questions, please email        #
 #   jcbagley@unb.br.                                                                     #
 ##########################################################################################
 
@@ -140,7 +140,7 @@ echo "INFO      | $(date) | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LAB
 seqDataSplitter
 
 
-echo "INFO      | $(date) | STEP #3: USE TAXON LABEL AND CONCATENATED SEQUENCE FILES GENERATED DURING PREVIOUS STEP TO CREATE ONE "
+echo "INFO      | $(date) | STEP #3: USING TAXON LABEL AND CONCATENATED SEQUENCE FILES GENERATED DURING PREVIOUS STEP TO CREATE ONE "
 echo "INFO      | $(date) |          FILE WITH MISSING DATA COUNTS AND PROPORTIONS FOR EACH INDIVIDUAL. "
 ###### OK, All we need to do at this point is count the number of a) characters and b) missing 
 ##--character states and gaps (we treat gaps as missing! see Felsenstein's Inferring
