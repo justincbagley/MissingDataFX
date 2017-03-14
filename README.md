@@ -115,7 +115,7 @@ $ ./MissingDataFX.sh
 
 INFO      | Tue Mar 14 15:35:18 CDT 2017 | Starting MissingDataFX analysis... 
 INFO      | Tue Mar 14 15:35:18 CDT 2017 | STEP #1: SETUP AND USER INPUT. 
-INFO      | Tue Mar 14 15:35:18 CDT 2017 |          Setting working directory to: /Users/justinbagley/Documents/GitHub/MissingDataFX-master-Feb17/4loci_new_50mil_long_run1-PARTIAL46mill_MrBayes_tree2 
+INFO      | Tue Mar 14 15:35:18 CDT 2017 |          Setting working directory to: /GitHub/MissingDataFX-master/run1 
 INFO      | Tue Mar 14 15:35:18 CDT 2017 |          Reading in input NEXUS file(s)... 
 INFO      | Tue Mar 14 15:35:18 CDT 2017 | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LABELS AND DATA BLOCKS INTO SEPARATE FILES. 
 INFO      | Tue Mar 14 15:35:18 CDT 2017 |          Catostomidae_4loci_new_forMrBayes.NEX 
@@ -131,7 +131,7 @@ INFO      | Tue Mar 14 15:35:19 CDT 2017 | STEP #5: MAKE R SCRIPT THAT A) EXTRAC
 INFO      | Tue Mar 14 15:35:19 CDT 2017 |          TABLE (STEP #3) IN WORKING DIR THEN B) TESTS FOR IMPACT OF MISSING DATA ON PHYLO SUPPORT AND BRANCH LENGTHS. 
 INFO      | Tue Mar 14 15:35:19 CDT 2017 | STEP #6: RUN THE R SCRIPT (WHICH ALSO SAVES RESULTS TO FILE). 
 INFO      | Tue Mar 14 15:35:25 CDT 2017 | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. 
-INFO      | Tue Mar 14 15:35:25 CDT 2017 |          R workspace file confirmed in dir: /Users/justinbagley/Documents/GitHub/MissingDataFX-master-Feb17/4loci_new_50mil_long_run1-PARTIAL46mill_MrBayes_tree2 
+INFO      | Tue Mar 14 15:35:25 CDT 2017 |          R workspace file confirmed in dir: /GitHub/MissingDataFX-master/run1  
 INFO      | Tue Mar 14 15:35:25 CDT 2017 | Done analyzing the amount and potential effects of missing data on phylogenetic support and branch 
 INFO      | Tue Mar 14 15:35:25 CDT 2017 | lengths using MissingDataFX. 
 INFO      | Tue Mar 14 15:35:25 CDT 2017 | Bye.
