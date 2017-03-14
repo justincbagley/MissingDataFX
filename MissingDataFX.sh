@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ##########################################################################################
-#                          MissingDataFX v0.1.0, March 2017                              #
+#                            MissingDataFX v0.1.0, March 2017                            #
 #   SHELL SCRIPT FOR CONDUCTING TESTS OF THE EFFECTS OF MISSING DATA ON PHYLOGENETIC     #
 #   ANALYSES (NODAL SUPPORT, BRANCH LENGTHS)                                             #
 #   Copyright (c)2017 Justin C. Bagley, Universidade de Brasília, Brasília, DF, Brazil.  #
@@ -12,7 +12,7 @@
 
 echo "
 ##########################################################################################
-#                          MissingDataFX v0.1.0, March 2017                              #
+#                            MissingDataFX v0.1.0, March 2017                            #
 ##########################################################################################
 "
 
@@ -20,12 +20,12 @@ echo "
 echo "INFO      | $(date) | Starting MissingDataFX analysis... "
 echo "INFO      | $(date) | STEP #1: SETUP AND USER INPUT. "
 ###### Set paths and filetypes as different environmental variables:
-	MY_PATH=`pwd -P`				## This script assumes it is being run in a sub-folder
+	MY_PATH=$(pwd -P)				## This script assumes it is being run in a sub-folder
 									## of the MissingDataFX master directory specific to the 
 									## current analysis. Hence, the R directory in the 
 									## distro is relatively located at path "../R/".
 echo "INFO      | $(date) |          Setting working directory to: $MY_PATH "
-	CR=$(printf '\r'); TAB=$(printf '\t');
+	CR=$(printf '\r');
 	calc () {
 	   	bc -l <<< "$@"
 	}
@@ -33,7 +33,7 @@ echo "INFO      | $(date) |          Setting working directory to: $MY_PATH "
 echo "INFO      | $(date) |          Reading in input NEXUS file(s)... "
 ###### Read in the NEXUS file(s), by getting filenames matching .nex or .NEX patterns.
 
-	MY_NEXUS_FILES="$(ls . | egrep '\.nex|\.NEX')"
+	MY_NEXUS_FILES="$(ls . | grep -E '\.nex|\.NEX')"
 
 echo "INFO      | $(date) | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LABELS AND DATA BLOCKS INTO SEPARATE FILES. "
 ###### Several things to do here. First, 1) is the data interleaved? Extract info on whether 
@@ -51,16 +51,20 @@ echo "INFO      | $(date) | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LAB
 		for i in $MY_NEXUS_FILES; do
 			echo "INFO      | $(date) |          $i "
 
-			##--This is the base name of the original nexus file, so you have it. This WILL work regardless of whether the NEXUS filename extension is written in lowercase or in all caps, ".NEX".
+			##--This is the base name of the original nexus file, so you have it. This WILL work 
+			##--regardless of whether the NEXUS filename extension is written in lowercase or in 
+			##--all caps, ".NEX".
 			MY_NEXUS_BASENAME="$(echo $i | sed 's/\.\///g; s/\.[A-Za-z]\{3\}$//g')"
 
 
 			###### CHECK WHETHER NEXUS FILE IS IN A) INTERLEAVED FORMAT OR B) NON-INTERLEAVED
 			###### FORMAT, AND MODIFY FILE ACCORDINGLY TO SPLIT TAXON LABELS AND DATA BLOCKS
-			###### INTO SEPARATE FILES.
-			MY_NEXUS_INTERL_STATUS="$(grep -o 'interleave\=[A-Za-z]\{3\}\|INTERLEAVE\=[A-Za-z]\{3\}' $i | sed 's/.*\=//g; s/\ //g')"			 
+			###### INTO SEPARATE FILES, THEN GET ONE FINAL SEQUENCE FILE.
+			MY_NEXUS_INTERL_STATUS="$(grep -o 'interleave\=[A-Za-z]\{2\}\|INTERLEAVE\=[A-Za-z]\{3\}' $i | sed 's/.*\=//g; s/\ //g')"
 
-				## SECTION A. INTERLEAVED FILES:
+			if [[ "$MY_NEXUS_INTERL_STATUS" = "yes" ]] || [[ "$MY_NEXUS_INTERL_STATUS" = "Yes" ]] || [[ "$MY_NEXUS_INTERL_STATUS" = "YES" ]]; then
+
+			## SECTION A. INTERLEAVED FILES:
 				##--Gather useful information for splitting file. Count number of lines in header (from ^#NEXUS to ^MATRIX) and whole file:
 				NUM_HEADER_LINES="$(grep -n "matrix\|MATRIX" $i | sed 's/:.*$//g')"
 				MY_EOF_LINE="$(wc -l $i | sed 's/\.\/.*$//g')"
@@ -120,6 +124,12 @@ echo "INFO      | $(date) | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LAB
 				rm ./*_seqDataBlock*
 				rm ./*_seqData.txt
 				
+			elif [[ "$MY_NEXUS_INTERL_STATUS" = "no" ]] || [[ "$MY_NEXUS_INTERL_STATUS" = "No" ]] || [[ "$MY_NEXUS_INTERL_STATUS" = "NO" ]]; then
+
+			## SECTION B. NON-INTERLEAVED FILES:
+				cat $i > ${MY_NEXUS_BASENAME}_concatenatedSeqs.txt
+					
+			fi
 					
 		done
 	)
