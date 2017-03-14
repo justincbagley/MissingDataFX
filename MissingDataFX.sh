@@ -6,7 +6,7 @@
 #   ANALYSES (NODAL SUPPORT, BRANCH LENGTHS)                                             #
 #   Copyright (c)2017 Justin C. Bagley, Universidade de Brasília, Brasília, DF, Brazil.  #
 #   See the README and license files on GitHub (http://github.com/justincbagley) for     #
-#   further information. Last update: March 17, 2017. For questions, please email        #
+#   further information. Last update: March 13, 2017. For questions, please email        #
 #   jcbagley@unb.br.                                                                     #
 ##########################################################################################
 
@@ -26,14 +26,13 @@ echo "INFO      | $(date) | STEP #1: SETUP AND USER INPUT. "
 									## distro is relatively located at path "../R/".
 echo "INFO      | $(date) |          Setting working directory to: $MY_PATH "
 	CR=$(printf '\r');
-	calc () {
-	   	bc -l <<< "$@"
-	}
+	calc () { bc -l <<< "$@" ; }
 
 echo "INFO      | $(date) |          Reading in input NEXUS file(s)... "
 ###### Read in the NEXUS file(s), by getting filenames matching .nex or .NEX patterns.
 
-	MY_NEXUS_FILES="$(ls . | grep -E '\.nex|\.NEX')"
+	## OLD: MY_NEXUS_FILES="$(ls . | grep -E '\.nex|\.NEX')"
+	MY_NEXUS_FILES="$(find . \( -name "*.nex" -o -name "*.NEX" \) -type f | sed 's/\.\///g')"
 
 echo "INFO      | $(date) | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LABELS AND DATA BLOCKS INTO SEPARATE FILES. "
 ###### Several things to do here. First, 1) is the data interleaved? Extract info on whether 
@@ -60,7 +59,7 @@ echo "INFO      | $(date) | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LAB
 			###### CHECK WHETHER NEXUS FILE IS IN A) INTERLEAVED FORMAT OR B) NON-INTERLEAVED
 			###### FORMAT, AND MODIFY FILE ACCORDINGLY TO SPLIT TAXON LABELS AND DATA BLOCKS
 			###### INTO SEPARATE FILES, THEN GET ONE FINAL SEQUENCE FILE.
-			MY_NEXUS_INTERL_STATUS="$(grep -o 'interleave\=[A-Za-z]\{2\}\|INTERLEAVE\=[A-Za-z]\{3\}' $i | sed 's/.*\=//g; s/\ //g')"
+			MY_NEXUS_INTERL_STATUS="$(grep -o 'interleave\=[A-Za-z]\{2,\}' $i | sed 's/.*\=//g; s/\ //g')"
 
 			if [[ "$MY_NEXUS_INTERL_STATUS" = "yes" ]] || [[ "$MY_NEXUS_INTERL_STATUS" = "Yes" ]] || [[ "$MY_NEXUS_INTERL_STATUS" = "YES" ]]; then
 
