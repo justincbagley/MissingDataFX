@@ -31,11 +31,15 @@ The DOI for MissingDataFX v0.1.0, via [Zenodo](https://zenodo.org), is coming so
 
 ## INTRODUCTION
 
+> *"The long term goal of phylogenetics, both neontological and paleontological, is to reconstruct an accurate phylogeny for all species of living and fossil organisms. The problem of missing data has been considered to be the major obstacle to accurately reconstructing the phylogeny of fossil taxa and their relationships to living taxa. Recent simulation studies show that there is not a single missing data problem... there are potentially two problems... Adding incomplete taxa ...[and] adding incomplete characters ... Identifying the mechanisms that may cause incomplete taxa and characters to be problematic is an important step in devising effective solutions."* - Wiens et al. (2003)
+
 > *"As fossil taxa will necessarily introduce a large proportion of missing data in any combined data set (Wiens 2009), the impact of these absent characters on branch length estimation and support may be substantial. In particular, the interaction between among partition rate variation and missing data may negatively affect phylogenetic inference (Lemmon et al. 2009). Additionally, heterogeneity in evolutionary rates between the morphological characters may also affect estimated branch lengths (Clarke and Middleton 2008)."* - Pyron (2011)
 
-This software automates exploratory analyses calculating the amount of missing data in phylogenetic datasets (NEXUS character partitions), as well as testing the form and potential significance of relationships between missing characters and phylogenetic tree parameters. Parts of MissingDataFX were inspired by, and recreate, several correlational/exploratory analyses of the effects of missing data on phylogenies used previously by Wiens et al. (2005) and Pyron (2011). I wrote MissingDataFX code to help me automate these and related analyses for a recent project on molecular phylogenetics and Bayesian total-evidence dating in 'sucker' fishes in the family Catostomidae (Bagley et al., in revision).
+This software automates exploratory analyses calculating the amount of missing data in phylogenetic datasets (NEXUS character partitions), as well as testing the form and potential significance of relationships between missing characters and phylogenetic tree parameters. Parts of MissingDataFX were inspired by, and recreate, correlational/exploratory analyses of the effects of missing data on phylogenies used previously by Wiens et al. (2005) and Pyron (2011). I wrote MissingDataFX code to help me automate these and related analyses for a recent project on molecular phylogenetics and Bayesian total-evidence dating, as well as the effects of missing data on phylogenetic results, in 'sucker' fishes of the family Catostomidae (Bagley et al., in revision).
 
-The current version of this software focuses on developing **MissingDataFX.sh**, a shell script that 1) characterizes the contents of data blocks in a NEXUS input file, including proportions of data versus missing data for each partition, and 2) conducts a customized R analysis to a) extract tree parameters (terminal branch lengths, terminal/subtending branch heights, posterior support) from BEAST or MrBayes trees generated from the input NEXUS, and then b) use appropriate standard or nonparametric tests for correlations between missing data proportions and the tree parameters, and plot relationships among variables. More details are given below. As in the case of the author's software package for phylogenetic and phylogeographic inference, [PIrANHA](https://github.com/justincbagley/PIrANHA), the MissingDataFX package is fully command line-based and is available as open-source software according to the license. 
+The current version of this software focuses on developing **MissingDataFX.sh**, a shell script that looks at potential effects of missing data on phylogenetic analyses in two basic ways: 1) by characterizing the contents of data blocks in a NEXUS input file, including proportions of data versus missing data for each partition, and 2) by performing a customized R analysis. Three main operations are performed in the R environment: a) extracting tree parameters (terminal branch lengths, terminal/subtending branch heights, posterior support) from BEAST or MrBayes trees generated from the input NEXUS; b) using appropriate standard or nonparametric tests for correlations between missing data proportions and the tree parameters; and c) plotting relationships among variables. More details are given below. 
+
+As in the case of the author's software package for phylogenetic and phylogeographic inference, [PIrANHA](https://github.com/justincbagley/PIrANHA), the MissingDataFX package is fully command line-based and is available as open-source software according to the license. 
 
 ## GETTING STARTED
 
@@ -53,34 +57,41 @@ Code in the MissingDataFX repository depends on R and a series of R packages, as
 - [phangorn](https://cran.r-project.org/web/packages/phangorn/index.html)
 
 ### Installation
-:computer: MissingDataFX uses UNIX shell and R scripts and was developed on Mac OSX, thus runs on a variety of operating systems, but especially UNIX/LINUX-like systems. MissingDataFX code should run "out-of-the-box" from most any folder on your machine. To 'install' MissingDataFX, download the repository, move into the repository folder and enter ```$ chmod u+x ./*.sh``` into the command line interface (e.g. Terminal app on Mac). This changes file mode bits in the .sh files to allow the user permission to access and execute them, which is an important prerequisite for the MissingDataFX code to run.
+:computer: MissingDataFX uses UNIX shell and R scripts, thus runs on a variety of operating systems, but was especially designed with UNIX/LINUX-like systems in mind. MissingDataFX code should run "out-of-the-box" from most any folder on your machine. To 'install' MissingDataFX, download the repository, move into the repository folder and enter ```$ chmod u+x ./*.sh``` into the command line interface (e.g. Terminal app on Mac). This changes file mode bits in the .sh files to allow the user permission to access and execute them, which is an important prerequisite for the MissingDataFX code to run.
 
 ### Run directory structure
-:warning: MissingDataFX code assumes that you are running within a sub-folder specific to your analysis, located within the MissingDataFX-master distro folder. Thus, we assume that the current working directory for any particular run contains **ONLY** 1) the MissingDataFX.sh script (which you copy and paste into the dir), 2) the input NEXUS file, 3) the input BEAST or MrBayes tree file that you wish to analyze, and/or 4) an *optional* 'drop file' listing taxa to be pruned from the tree prior to analysis. **Importantly**, as a result of this directory structure, the "R" folder from the distro, which contains a modified function for ips, will be located at the relative path "../R/". See README and in-script commenting for further details on file types and instructions for running basic analyses. Ideally, users will run MissingDataFX on multiple NEXUS-tree file combinations, for example 1) mtDNA only, 2) nuclear DNA only, 3) morphological characters only, and 4) all data combined--or a 'combined data' (mtDNA + nuclear) or 'total-evidence' (sequence + morphology) matrix and tree. Each of these analyses would be run within a separate sub-folder in the master distro folder.
+:warning: MissingDataFX code assumes that you are running within a sub-folder specific to your analysis, located within the MissingDataFX-master distro folder. **Importantly**, as a result of this directory structure, the "R" folder from the distro, which contains a modified function for ips, will be located at the relative path "../R/". See README and in-script commenting for further details on file types and instructions for running basic analyses. Ideally, users will run MissingDataFX on multiple NEXUS-tree file combinations, for example 1) mtDNA only, 2) nuclear DNA only, 3) morphological characters only, and 4) all data combined--or a 'combined data' (mtDNA + nuclear) or 'total-evidence' (sequence + morphology) matrix and tree. Each of these analyses would be run within a separate sub-folder in the master distro folder.
 
 ### Input files and filenames
-:warning: The main input files for MissingDataFX are NEXUS files, tree files, and 'drop' files. Please follow the guidelines below when constructing input files for analysis.
+:warning: The main input files for MissingDataFX are NEXUS files, tree files, and 'drop' files. **This software assumes that the current working directory (i.e. sub-folder) for any particular run contains *ONLY*: 
+1) the MissingDataFX.sh script (which you copy and paste into the dir), 
+2) the input NEXUS file, 
+3) the input BEAST or MrBayes tree file that you wish to analyze, and/or 
+4) an *optional* 'drop file' listing taxa to be pruned from the tree prior to analysis. 
+
+Please follow the guidelines below when constructing input files for analysis.
 
 #### NEXUS file
 For the NEXUS input file, we assume that there are no spaces or special characters in the filename (though underscores are OK), and that the file contains only DNA sequences or morphological data in simplified NEXUS format--i.e. header followed by a matrix block, and no subsequent data/info blocks (e.g. sets or MrBayes blocks; these must be removed). The input NEXUS may combine morphological and DNA sequence characters and it doesn't matter how these are specified after 'FORMAT DATATYPE' (so long as DATATYPE input sits on a single line); however, if one or more morphological data blocks are included in the NEXUS, then users **must NOT include a 'CharStateLabels' or 'CHARACTERS' block** in the file, or there will be issues. Prior to running MissingDataFX, users should check their input NEXUS filenames and contents to ensure that they meet these assumptions.
 
 #### Tree file
-Regarding tree files, let me say I'm very much a Bayesian, and my empirical research focuses frequently entails making model-based inferences in phylogenetics and phylogeography based on Bayesian or approximate Bayesian computation (e.g. ABC, hABC) methods (see my [Research](http://www.justinbagley.org/research), [Publications](http://www.justinbagley.org/publications), and [ResearchGate](https://www.researchgate.net/profile/Justin_Bagley2) pages). Thus, it's no surprise that the initial development offering of MissingDataFX focuses **Only** on Bayesian phylogenetic trees. Accepted tree files include BEAST maximum clade credibility (MCC) trees annotated with posterior parameter distributions in TreeAnnotator, and MrBayes consensus tree files (generated by running sumt command). **However, you should\:**
-- **Rename any BEAST tree file with '.out' (TreeAnnotator) extension to have the extension '.tree' instead**
-- **Leave the default '.con.tre' extension of any MrBayes consensus tree file.**
+Regarding tree files, let me say I'm very much a Bayesian, and my empirical research focuses frequently entails making model-based inferences in phylogenetics and phylogeography based on Bayesian or approximate Bayesian computation (e.g. ABC, hABC) methods (see my [Research](http://www.justinbagley.org/research), [Publications](http://www.justinbagley.org/publications), and [ResearchGate](https://www.researchgate.net/profile/Justin_Bagley2) pages). Thus, it's no surprise that the initial development offering of MissingDataFX **Only** provides support for Bayesian phylogenetic trees. Accepted tree files include BEAST maximum clade credibility (MCC) trees annotated with posterior parameter distributions in TreeAnnotator, and MrBayes consensus tree files generated by running sumt command (only tested with version 3.2+). **Multiple tree file extensions are supported; however, ...**
+- **You may use any MrBayes consensus tree file with the default '.con.tre' extension, or you may change the extension to '.tree'.** 
+- **By contrast, users *must* rename any BEAST tree file with '.out' (TreeAnnotator) extension to have the extension '.tree' instead.**
 
 #### Drop file
-'Drop' files are files the user creates in a text editor that contain a list of taxa (with names exactly matching taxon labels in the NEXUS and tree files), with one taxon name per line followed by an empty line, and saved with '.drop' file extensions. Drop files specify taxa to be pruned from the phylogeny in R prior to further analyses. Drop files provide additional flexibility to the analysis, and they are handy when the user would like to exclude certain taxa, for example a) extinct taxa or b) taxa with low or high amounts of missing data. Why extinct taxa? Some BEAST or MrBayes trees may result from analyses including extinct taxa as tips, e.g. tip-dating analyses (Pyron 2011) or Bayesian total-evidence dating using fossilized birth-death (FBD) models (Heath et al. 2014). In such cases, the extinct taxa usually have tip dates older than a few hundred to thousands of years ago (>300-1000 yr BP), and this produces a set of non-contemporaneous tips in resulting phylogenies--enough to majorly effect the distribution of branch lengths (especially with more than just a 1-5 extinct taxa). 
+*Optional* 'drop files' are files the user creates in a text editor that contain a list of taxa (with names exactly matching taxon labels in the NEXUS and tree files), with one taxon name per line followed by an empty line, and saved with '.drop' file extensions. Drop files specify taxa to be pruned from the phylogeny in R prior to further analyses. Drop files provide additional flexibility to the analysis, and they are handy when the user would like to exclude certain taxa, for example a) extinct taxa or b) taxa with low or high amounts of missing data. Why extinct taxa? Some BEAST or MrBayes trees may result from analyses including extinct taxa as tips, e.g. tip-dating analyses (Pyron 2011) or Bayesian total-evidence dating using fossilized birth-death (FBD) models (Heath et al. 2014). In such cases, the extinct taxa usually have tip dates older than a few hundred to thousands of years ago (>300-1000 yr BP), and this produces a set of non-contemporaneous tips in resulting phylogenies--enough to majorly effect the distribution of branch lengths (especially with more than just a 1-5 extinct taxa). **Remember:**
+- **Drop files are optional.** MissingDataFX will run just fine whether they are included or not.
 - **At present, there can only be *one* '.drop' file and *one* tree file per input NEXUS analyzed in MissingDataFX.** So, if you want to analyze two NEXUS files with only one corresponding Bayesian tree file (e.g. you're running different alignments from a partitioned Bayesian analysis that yielded a single MrBayes or BEAST tree), then the tree file MUST be duplicated and given separate names matching each NEXUS, and the sets of files for each analysis should be run within separate sub-folders (as per the 'Run directory structure' section above).
 
 #### Guidelines for input file NAMES
 For simplicity, all filenames supplied to MissingDataFX for a given analysis should have the same basename. A suitable set of files for analysis might look like the following example, where MY_BASENAME is the basename applied to all of the files:  
 
-| Input file type        | Example filename                                               |
-| :--------------------- |:---------------------------------------------------------------|
-| NEXUS file             | MY_BASENAME.nex                                                |
-| Tree file              | MY_BASENAME.tree (BEAST), or MY_BASENAME.con.tre (MrBayes)     |
-| Drop file              | MY_BASENAME.drop                                               |
+| Input file type        | Example filename                                                    |
+| :--------------------- |:--------------------------------------------------------------------|
+| NEXUS file             | MY_BASENAME.nex                                                     |
+| Tree file              | MY_BASENAME.tree (BEAST, MrBayes), or MY_BASENAME.con.tre (MrBayes) |
+| Drop file              | MY_BASENAME.drop                                                    |
 
 We use this naming convention so that the tree filenames can be linked to the original NEXUS input file(s) without conflicting with the NEXUS filenames used in other procedures used in the shell script.
 
@@ -93,35 +104,36 @@ It's so easy to use, the MissingDataFX.sh script doesn't display any sophisticat
 $ ./MissingDataFX.sh
 ```
 #### Screen output example:
-Here is an example of what output to screen would look like for a normal MissingDataFX analysis including a NEXUS file, a drop file, and a MrBayes tree file:
+Here is an example of what output to screen would look like for a normal MissingDataFX analysis including a NEXUS file and a MrBayes tree file with '.tree' extension, and no drop file:
 ```
 $ ./MissingDataFX.sh
+
 ##########################################################################################
-#                          MissingDataFX v0.1.0, February 2017                           #
+#                            MissingDataFX v0.1.0, March 2017                            #
 ##########################################################################################
 
-INFO      | Thu Feb 16 12:25:37 CST 2017 | Starting MissingDataFX analysis... 
-INFO      | Thu Feb 16 12:25:37 CST 2017 | STEP #1: SETUP AND USER INPUT. 
-INFO      | Thu Feb 16 12:25:38 CST 2017 |          Setting working directory to: /Users/justinbagley/Documents/GitHub/MissingDataFX/Example_run 
-INFO      | Thu Feb 16 12:25:38 CST 2017 |          Reading in input NEXUS file(s)... 
-INFO      | Thu Feb 16 12:25:38 CST 2017 | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LABELS AND DATA BLOCKS INTO SEPARATE FILES. 
-INFO      | Thu Feb 16 12:25:38 CST 2017 |          4lociplusMorpho_n84_simple.NEX 
-INFO      | Thu Feb 16 12:25:38 CST 2017 | STEP #3: USE TAXON LABEL AND CONCATENATED SEQUENCE FILES GENERATED DURING PREVIOUS STEP TO CREATE ONE 
-INFO      | Thu Feb 16 12:25:38 CST 2017 |          FILE WITH MISSING DATA COUNTS AND PROPORTIONS FOR EACH INDIVIDUAL. 
-INFO      | Thu Feb 16 12:25:38 CST 2017 | STEP #4: PRE-PROCESSING MRBAYES CONSENSUS TREE INPUT FILE, IF PRESENT: SPLIT .con.tre FILE, EXTRACT 
-INFO      | Thu Feb 16 12:25:38 CST 2017 |          TERMINAL BRANCH LENGTHS & THEIR CONFIDENCE INTERVALS, AND CREATE BRANCH LENGTH SUMMARY TABLE. 
-INFO      | Thu Feb 16 12:25:38 CST 2017 |          If MrBayes consensus tree file ('.con.tre' extension) present, split file, extract terminal 
-INFO      | Thu Feb 16 12:25:38 CST 2017 |          branch lengths (term_brL), and tabulate branch length data including CIs. 
-INFO      | Thu Feb 16 12:25:38 CST 2017 |          Found '.con.tre' file. Reading in MrBayes tree from current directory... 
-INFO      | Thu Feb 16 12:25:38 CST 2017 |          Running mbTreeStatMiner script... 
-INFO      | Thu Feb 16 12:25:38 CST 2017 | STEP #5: MAKE R SCRIPT THAT A) EXTRACTS PARAMETER ESTIMATES FROM BEAST TREES OR READS IN MRBAYES DATA
-INFO      | Thu Feb 16 12:25:38 CST 2017 |          TABLE (STEP #3) IN WORKING DIR THEN B) TESTS FOR IMPACT OF MISSING DATA ON PHYLO SUPPORT AND BRANCH LENGTHS. 
-INFO      | Thu Feb 16 12:25:38 CST 2017 | STEP #6: RUN THE R SCRIPT (WHICH ALSO SAVES RESULTS TO FILE). 
-INFO      | Thu Feb 16 12:25:43 CST 2017 | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. 
-INFO      | Thu Feb 16 12:25:43 CST 2017 | Done analyzing the amount and potential effects of missing data on phylogenetic support and branch 
-INFO      | Thu Feb 16 12:25:43 CST 2017 | lengths using MissingDataFX. 
-INFO      | Thu Feb 16 12:25:43 CST 2017 | Bye.
-
+INFO      | Tue Mar 14 15:35:18 CDT 2017 | Starting MissingDataFX analysis... 
+INFO      | Tue Mar 14 15:35:18 CDT 2017 | STEP #1: SETUP AND USER INPUT. 
+INFO      | Tue Mar 14 15:35:18 CDT 2017 |          Setting working directory to: /Users/justinbagley/Documents/GitHub/MissingDataFX-master-Feb17/4loci_new_50mil_long_run1-PARTIAL46mill_MrBayes_tree2 
+INFO      | Tue Mar 14 15:35:18 CDT 2017 |          Reading in input NEXUS file(s)... 
+INFO      | Tue Mar 14 15:35:18 CDT 2017 | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LABELS AND DATA BLOCKS INTO SEPARATE FILES. 
+INFO      | Tue Mar 14 15:35:18 CDT 2017 |          Catostomidae_4loci_new_forMrBayes.NEX 
+INFO      | Tue Mar 14 15:35:18 CDT 2017 | STEP #3: USING TAXON LABEL AND CONCATENATED SEQUENCE FILES GENERATED DURING PREVIOUS STEP TO CREATE ONE 
+INFO      | Tue Mar 14 15:35:18 CDT 2017 |          FILE WITH MISSING DATA COUNTS AND PROPORTIONS FOR EACH INDIVIDUAL. 
+INFO      | Tue Mar 14 15:35:19 CDT 2017 | STEP #4: PRE-PROCESSING MRBAYES CONSENSUS TREE INPUT FILE, IF PRESENT: SPLIT .con.tre FILE, EXTRACT 
+INFO      | Tue Mar 14 15:35:19 CDT 2017 |          TERMINAL BRANCH LENGTHS & THEIR CONFIDENCE INTERVALS, AND CREATE BRANCH LENGTH SUMMARY TABLE. 
+INFO      | Tue Mar 14 15:35:19 CDT 2017 |          Encountered one or more '.tree' files. Testing them... 
+INFO      | Tue Mar 14 15:35:19 CDT 2017 |          No '.con.tre' tree file in current working directory. Checking for '.tree' file... 
+INFO      | Tue Mar 14 15:35:19 CDT 2017 |          Your tree file looks like it is from MrBayes. Assuming MrBayes tree(s) available hereafter... 
+INFO      | Tue Mar 14 15:35:19 CDT 2017 |          Running mbTreeStatMiner script modified for '.tree' files... 
+INFO      | Tue Mar 14 15:35:19 CDT 2017 | STEP #5: MAKE R SCRIPT THAT A) EXTRACTS PARAMETER ESTIMATES FROM BEAST TREES OR READS IN MRBAYES DATA
+INFO      | Tue Mar 14 15:35:19 CDT 2017 |          TABLE (STEP #3) IN WORKING DIR THEN B) TESTS FOR IMPACT OF MISSING DATA ON PHYLO SUPPORT AND BRANCH LENGTHS. 
+INFO      | Tue Mar 14 15:35:19 CDT 2017 | STEP #6: RUN THE R SCRIPT (WHICH ALSO SAVES RESULTS TO FILE). 
+INFO      | Tue Mar 14 15:35:25 CDT 2017 | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. 
+INFO      | Tue Mar 14 15:35:25 CDT 2017 |          R workspace file confirmed in dir: /Users/justinbagley/Documents/GitHub/MissingDataFX-master-Feb17/4loci_new_50mil_long_run1-PARTIAL46mill_MrBayes_tree2 
+INFO      | Tue Mar 14 15:35:25 CDT 2017 | Done analyzing the amount and potential effects of missing data on phylogenetic support and branch 
+INFO      | Tue Mar 14 15:35:25 CDT 2017 | lengths using MissingDataFX. 
+INFO      | Tue Mar 14 15:35:25 CDT 2017 | Bye.
 ```
 
 ## TROUBLESHOOTING
