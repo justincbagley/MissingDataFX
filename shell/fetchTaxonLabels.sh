@@ -11,14 +11,14 @@ echo "
 	MY_PATH=`pwd -P`				## This script assumes it is being run in a sub-folder
 							## of the MissingDataFX master directory specific to the 
 							## current analysis. 
-echo "     Setting working directory to dir: "
-echo "     $MY_PATH "
+echo "Setting working directory to dir: "
+echo "$MY_PATH "
 	CR=$(printf '\r');
 	calc () {
 	bc -l <<< "$@" 
 }
 
-echo "     Reading in input NEXUS file(s)... "
+echo "Reading in input NEXUS file(s)... "
 ###### Read in the NEXUS file(s), by getting filenames matching .nex or .NEX patterns. 
 	MY_NEXUS_FILES="$(find . \( -name "*.nex" -o -name "*.NEX" -o -name "*.Nex" \) -type f | sed 's/\.\///g')"
 
@@ -37,10 +37,11 @@ echo "     Reading in input NEXUS file(s)... "
 				MY_NUM_TAX="$(calc "$MY_NUMLINES_END_1ST_BLOCK"-1)"
 				head -n"$MY_NUM_TAX" ./"${MY_NEXUS_BASENAME}"_headless.nex > ./"${MY_NEXUS_BASENAME}"_headless_seqData.txt
 
-					echo "     Making a taxonLabels file for taxa in "$i" "
+					echo "Making a taxonLabels file for taxa in "$i" "
 					perl -pe 's/^[\ ]*//g; s/\ +.*$//g' ./"${MY_NEXUS_BASENAME}"_headless_seqData.txt > ./"${MY_NEXUS_BASENAME}"_taxonLabels.txt
 
-				rm ./"${MY_NEXUS_BASENAME}"_headless.nex ./"${MY_NEXUS_BASENAME}"_headless_seqData.txt
+				if [[ -n $(find . -name "*_headless.nex" -type f) ]]; then rm ./"${MY_NEXUS_BASENAME}"_headless.nex; fi
+				if [[ -n $(find . -name "*_headless_seqData.txt" -type f) ]]; then rm ./"${MY_NEXUS_BASENAME}"_headless_seqData.txt; fi
 			done
 		)
 }
