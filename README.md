@@ -175,5 +175,5 @@ During the development of this software, J.C.B. received stipend support from a 
 - Allow MrBayes tree files with '.con.tre' or '.tree' extensions (previously automatically converted .con.tre to .tree). **DONE!** :white_check_mark:
 - Correct issue in R code with 'ALL data' dataframe name for the non-drop file case. **DONE!** :white_check_mark:
 
-March 14, 2017
+March 15, 2017
 Justin C. Bagley, Tuscaloosa, AL, USA
