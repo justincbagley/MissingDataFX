@@ -1,18 +1,18 @@
 #!/bin/sh
 
 ##########################################################################################
-#                            MissingDataFX v0.1.0, March 2017                            #
+#                            MissingDataFX v0.1.1, March 2017                            #
 #   SHELL SCRIPT FOR CONDUCTING TESTS OF THE EFFECTS OF MISSING DATA ON PHYLOGENETIC     #
 #   ANALYSES (NODAL SUPPORT, BRANCH LENGTHS)                                             #
 #   Copyright (c)2017 Justin C. Bagley, Universidade de Brasília, Brasília, DF, Brazil.  #
 #   See the README and license files on GitHub (http://github.com/justincbagley) for     #
-#   further information. Last update: March 14, 2017. For questions, please email        #
+#   further information. Last update: March 15, 2017. For questions, please email        #
 #   jcbagley@unb.br.                                                                     #
 ##########################################################################################
 
 echo "
 ##########################################################################################
-#                            MissingDataFX v0.1.0, March 2017                            #
+#                            MissingDataFX v0.1.1, March 2017                            #
 ##########################################################################################
 "
 
@@ -1401,7 +1401,18 @@ echo "INFO      | $(date) | STEP #6: RUN THE R SCRIPT (WHICH ALSO SAVES RESULTS 
 R CMD BATCH ./missingDataFXTester.R
 
 
-echo "INFO      | $(date) | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. "
+echo "INFO      | $(date) | STEP #7: DO GRAPHICS CHECK ON BASIC SCATTERPLOTS FROM R; IF FAILED, DO fetchTaxonLabels.sh FIX AND RERUN RSCRIPT. "
+if [[ -n $(find . -name "basic_scatterplots.pdf" -type f) ]]; then
+	echo "INFO      | $(date) |          Passed graphics check. Moving on... "
+else
+	echo "WARNING!  | $(date) |          FAILED graphics check. Running fetchTaxonLabels script, then re-running missingDataFXTester.R... "
+	chmod u+x ../shell/fetchTaxonLabels.sh
+	../shell/fetchTaxonLabels.sh
+	#
+	R CMD BATCH ./missingDataFXTester.R
+fi
+
+echo "INFO      | $(date) | STEP #8: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. "
 ###### Make dir and organize NEXUS data into "NEXUS_data" sub-folder:
 	mkdir NEXUS_data
 	mv ./*_BIGSummary.txt ./*_propData.txt ./*_propMissing.txt ./*_propSummary.txt ./*_taxa.txt ./NEXUS_data/
