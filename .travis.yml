@@ -1,6 +1,4 @@
-################################### ATTEMPT #3 (modified from contributor "hugovk" suggestions at URL: https://github.com/koalaman/shellcheck/wiki/TravisCI):
-# Use container-based infrastructure for quicker build start-up
-language: bash
+language: bash    # Use container-based infrastructure for quicker build start-up
 
 sudo: false
 
@@ -12,9 +10,6 @@ addons:
     - shellcheck
 
 script:
-## - bash -c 'shopt -s globstar; shellcheck **/*.{sh,bash}'
-## - bash -c 'shopt -s globstar; shellcheck **/*.{sh}'
-## - bash -c 'shopt -s globstar; shellcheck **/MissingDataFX.sh'
 - bash -c 'shopt -s globstar; shellcheck -e SC2006 -e SC2039 -e SC2034 -e SC2116 -e SC2086 -e SC2012 -e SC2028 -e SC2125 -e SC2046 -e SC2126 **/MissingDataFX.sh'  
     ##-- **NOTES on previous line:**
     ##--Several reasons to exclude many errors (ignore them) here: 1) code has been tested manually and works; 
@@ -29,45 +24,12 @@ script:
 matrix:
   fast_finish: true
   
-  
-################################### ATTEMPT #1 (modified from contributor "ccztux" suggestions at URL: https://github.com/koalaman/shellcheck/wiki/TravisCI):
-## sudo: required
-
-## language: bash
-
-## services:
-##   - docker
-
-## before_install:
-##   - docker pull koalaman/shellcheck
-
-## script: 
-##  - docker run -v $(pwd):/scripts koalaman/shellcheck MissingDataFX/MissingDataFX.sh
-
-## script: shellcheck
-## script: shellcheck MissingDataFX.sh
-
-## - docker run -v $(pwd):/scripts koalaman/shellcheck /scripts/yourscript.sh
-
-## matrix:
-## fast_finish: true
-
-
-
-################################### ATTEMPT #2 (simple, just bash):
-## sudo: required
-
-## language: bash
-
-
-
 
 ################################### EXTRAS THAT WILL WORK IN ANY YML FILE:
 ## notifications:
 ##   email:
 ##     on_success: change
 ##     on_failure: change
-
 
 
 ################################## IDEAS I HAVEN'T TRIED YET:
