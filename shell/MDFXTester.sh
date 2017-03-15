@@ -38,10 +38,6 @@ echo "
 
 ./MissingDataFX.sh
 
-echo "INFO      | $(date) | Done analyzing the amount and potential effects of missing data on phylogenetic support and branch "
-echo "INFO      | $(date) | lengths using MissingDataFX. "
-echo "INFO      | $(date) | Bye.
-"
 
 fi
 
