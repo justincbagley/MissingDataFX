@@ -11,15 +11,16 @@ addons:
 
 script:
 - bash -c 'shopt -s globstar; shellcheck -e SC2006 -e SC2039 -e SC2034 -e SC2116 -e SC2086 -e SC2012 -e SC2028 -e SC2125 -e SC2046 -e SC2126 **/MissingDataFX.sh'  
-    ##-- **NOTES on previous line:**
+echo "##-- **NOTES on previous line:**
     ##--Several reasons to exclude many errors (ignore them) here: 1) code has been tested manually and works; 
-    ##--2) checking by eye reveals some of these errors not generally useful (e.g. "SC2039: In POSIX sh, [[ ]] 
-    ##--is undefined." -- but code is written for sh/bash, and here I follow bashstyle recommendations, which 
+    ##--2) checking by eye reveals some of these errors not generally useful (e.g. 'SC2039: In POSIX sh, [[ ]] 
+    ##--is undefined.' -- but code is written for sh/bash, and here I follow bashstyle recommendations, which 
     ##--are considered to reflect best practices, thus supersedes shellcheck); 3) checking by eye reveals that
-    ##--a number of "SC2028" errors refer to R script, so reflect fact that code uses UNIX shell commands AND
-    ##--creates Rscript with R commands, creating mismatch between language specified to Travis CI and code 
-    ##--(two languages in script); and 4) "SC2046" comments/errors can be ignored when a "$" sign encloses a
-    ##--number for calc function at start of script.
+    ##--a number of 'SC2028' comments/errors refer to R script, so reflect fact that code uses UNIX shell
+    ##--commands and creates Rscript with R commands, creating mismatch between Travis CI lanaguage setting and
+    ##--code (two languages in script); and 4) 'SC2046' comments/errors can be ignored when a '$' sign encloses
+    ##--a number for calc function at start of script.
+"
 
 matrix:
   fast_finish: true
