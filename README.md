@@ -17,7 +17,9 @@ Alternatively, please provide the following link to this software repository in 
 
 ## DOI
 
-The DOI for MissingDataFX v0.1.0, via [Zenodo](https://zenodo.org), is coming soon... stay tuned.
+The DOI for MissingDataFX v0.1.0, via [Zenodo](https://zenodo.org), is as follows: [![DOI](https://zenodo.org/badge/82145780.svg)](https://zenodo.org/badge/latestdoi/82145780). Here is an example of citing MissingDataFX using the DOI: 
+  
+  Bagley, J.C. 2017. MissingDataFX v0.1.0. GitHub package, Available at: http://doi.org/10.5281/zenodo.398992.
 
 ## CONTENTS
 
