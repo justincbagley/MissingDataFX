@@ -12,7 +12,8 @@ addons:
     - shellcheck
 
 script:
- - bash -c 'shopt -s globstar; shellcheck **/*.{sh,bash}'
+## - bash -c 'shopt -s globstar; shellcheck **/*.{sh,bash}'
+ - bash -c 'shopt -s globstar; shellcheck **/*.{sh}'
 
 matrix:
   fast_finish: true
@@ -50,8 +51,15 @@ matrix:
 
 
 
-################################### EXTRAS:
+################################### EXTRAS THAT WILL WORK IN ANY YML FILE:
 ## notifications:
 ##   email:
 ##     on_success: change
 ##     on_failure: change
+
+
+
+################################## IDEAS I HAVEN'T TRIED YET:
+##--The following has not been tested, but is from URL: https://carlosbecker.com/posts/lint-shell-scripts/
+## git submodule add https://github.com/caarlos0/shell-travis-build.git build
+## cp build/travis.yml.example .travis.yml
