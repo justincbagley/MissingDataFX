@@ -1403,36 +1403,58 @@ R CMD BATCH ./missingDataFXTester.R
 
 echo "INFO      | $(date) | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. "
 ###### Make dir and organize NEXUS data into "NEXUS_data" sub-folder:
-	mkdir NEXUS_data
-	mv ./*_BIGSummary.txt ./*_propData.txt ./*_propMissing.txt ./*_propSummary.txt ./*_taxa.txt ./NEXUS_data/
+	if [[ ! -n $(find . -name "NEXUS_data" -type d) ]]; then
+		mkdir NEXUS_data
+		mv ./*_BIGSummary.txt ./*_propData.txt ./*_propMissing.txt ./*_propSummary.txt ./*_taxa.txt ./NEXUS_data/
+	else
+		mv ./*_BIGSummary.txt ./*_propData.txt ./*_propMissing.txt ./*_propSummary.txt ./*_taxa.txt ./NEXUS_data/
+	fi
 	
 ###### mbTreeStatMiner results sub-folder:
-	mkdir mb_tree_stats
-	mv ./*_brL_Summary.txt ./mb_tree_stats/
+	if [[ ! -n $(find . -name "mb_tree_stats" -type d) ]]; then
+		mkdir mb_tree_stats
+		mv ./*_brL_Summary.txt ./mb_tree_stats/
+	else
+		mv ./*_brL_Summary.txt ./mb_tree_stats/
+	fi
 	
 ###### final data set sub-folder:
-	mkdir final_dataset
-	mv ./*ALLData.txt ./final_dataset/
+	if [[ ! -n $(find . -name "final_dataset" -type d) ]]; then
+		mkdir final_dataset
+		mv ./*ALLData.txt ./final_dataset/
+	else
+		mv ./*ALLData.txt ./final_dataset/
+	fi
 	
 ###### Make dir and organize R results into "R_results" sub-folder:
-	mkdir R_results
-	if [ -s ./MissingDataFX_R_Workspace.RData ]; then
-		echo "INFO      | $(date) |          R workspace file confirmed in dir: $MY_PATH "
-	elif [ ! -s ./MissingDataFX_R_Workspace.RData ]; then
-		echo "WARNING!  | $(date) |          Could not find R workspace file in dir: $MY_PATH "
+	if [[ ! -n $(find . -name "R_results" -type d) ]]; then
+		mkdir R_results
+		if [ -s ./MissingDataFX_R_Workspace.RData ]; then
+			echo "INFO      | $(date) |          R workspace file confirmed in dir: $MY_PATH "
+		elif [ ! -s ./MissingDataFX_R_Workspace.RData ]; then
+			echo "WARNING!  | $(date) |          Could not find R workspace file in dir: $MY_PATH "
+		fi
+		mv ./missingDataFXTester.r ./missingDataFXTester.Rout ./MissingDataFX_R_Workspace.RData ./*.pdf ./R_results/
+		mv ./*_test_output.txt ./*_pvalues.txt ./R_results/
+	else
+		if [ -s ./MissingDataFX_R_Workspace.RData ]; then
+			echo "INFO      | $(date) |          R workspace file confirmed in dir: $MY_PATH "
+		elif [ ! -s ./MissingDataFX_R_Workspace.RData ]; then
+			echo "WARNING!  | $(date) |          Could not find R workspace file in dir: $MY_PATH "
+		fi
+		mv ./missingDataFXTester.r ./missingDataFXTester.Rout ./MissingDataFX_R_Workspace.RData ./*.pdf ./R_results/
+		mv ./*_test_output.txt ./*_pvalues.txt ./R_results/
 	fi
-	mv ./missingDataFXTester.r ./missingDataFXTester.Rout ./MissingDataFX_R_Workspace.RData ./*.pdf ./R_results/
-	mv ./*_test_output.txt ./*_pvalues.txt ./R_results/
-
+	
 ###### Clean up any temporary files remaining in working directory:
-	rm ./*headless.nex
-	rm ./*_concatenatedSeqs.txt
-	rm ./*_totalChar.txt
-	rm ./*_totalChar.tmp
-	rm ./*_regCharFILE.txt
-	rm ./*_regCharCOUNTS.txt
-	rm ./*_gapChar.txt
-	rm ./*_missingChar.txt
+	if [[ -n $(find . -name "*headless.nex" -type f) ]]; then rm ./*headless.nex; fi
+	if [[ -n $(find . -name "*_concatenatedSeqs.txt" -type f) ]]; then rm ./*_concatenatedSeqs.txt; fi
+	if [[ -n $(find . -name "*_totalChar.txt" -type f) ]]; then rm ./*_totalChar.txt; fi
+	if [[ -n $(find . -name "*_totalChar.tmp" -type f) ]]; then rm ./*_totalChar.tmp; fi
+	if [[ -n $(find . -name "*_regCharFILE.txt" -type f) ]]; then rm ./*_regCharFILE.txt; fi
+	if [[ -n $(find . -name "*_regCharCOUNTS.txt" -type f) ]]; then rm ./*_regCharCOUNTS.txt; fi
+	if [[ -n $(find . -name "*_gapChar.txt" -type f) ]]; then rm ./*_gapChar.txt; fi
+	if [[ -n $(find . -name "*_missingChar.txt" -type f) ]]; then rm ./*_missingChar.txt; fi
 		
 
 echo "INFO      | $(date) | STEP #8: TEST RUN OUTPUT USING MDFXTester, WHICH WILL RERUN MissingDataFX IF RESULTS ARE INCOMPLETE. "
