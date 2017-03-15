@@ -1,4 +1,6 @@
-# MissingDataFX [![Codacy Badge](https://api.codacy.com/project/badge/Grade/fdc05f0a492d450582252c69ce37e341)](https://www.codacy.com/app/justincbagley/MissingDataFX?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justincbagley/MissingDataFX&amp;utm_campaign=Badge_Grade)
+# MissingDataFX 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fdc05f0a492d450582252c69ce37e341)](https://www.codacy.com/app/justincbagley/MissingDataFX?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justincbagley/MissingDataFX&amp;utm_campaign=Badge_Grade) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-green.svg?style=flat)](LICENSE)
+
 Testing effects of missing data on phylogenetic inferences 
 
 ## LICENSE
