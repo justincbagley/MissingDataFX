@@ -8,8 +8,9 @@ services:
 before_install:
   - docker pull koalaman/shellcheck
 
-script:
-shellcheck MissingDataFX.sh
+script: shellcheck
+## shellcheck MissingDataFX.sh
+
 ## - docker run -v $(pwd):/scripts koalaman/shellcheck /scripts/yourscript.sh
 ## - docker run -v $(pwd):/scripts koalaman/shellcheck /scripts/yourscript.sh
 
