@@ -161,6 +161,7 @@ During the development of this software, J.C.B. received stipend support from a 
 ## TODO LIST
 **Current:**
 
+- **Fix bug giving "No such file or directory" errors on ```sed``` and ``rm```` calls for '*_taxonLabels.txt' files under STEP \#3, which causes final data files and R script graphics NOT to be generated!**
 - **Add capacity to extract posterior information for terminal nodes in MrBayes trees.** This not only keeps us from being able to plot linear relationships between posterior support and proportion of data or missing data, but also bars us from conducting formal correlation tests of relationships with posterior nodal support. Currently, if the user wants to be able to examine relationships among all four variables of interest--terminal posterior nodal support, terminal branch lengths, proportion data, and proportion missing data, then *they will have to conduct their analysis Only on a BEAST tree*.
 - **Provide more graphical output options:**
  o **Summaries of data/missing data proportions for different data blocks (though it's difficult to carry names of blocks/partitions into R).**
