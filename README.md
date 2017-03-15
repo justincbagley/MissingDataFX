@@ -109,7 +109,7 @@ It's so easy to use, the MissingDataFX.sh script doesn't display any sophisticat
 $ ./MissingDataFX.sh
 ```
 #### Screen output example:
-Here is an example of what output to screen would look like for a normal MissingDataFX analysis including a NEXUS file and a MrBayes tree file with '.tree' extension, and no drop file:
+Here is an example, *from v0.1.0 release*, of what output to screen would look like for a normal MissingDataFX analysis including a NEXUS file and a MrBayes tree file with '.tree' extension, and no drop file:
 ```
 $ ./MissingDataFX.sh
 
