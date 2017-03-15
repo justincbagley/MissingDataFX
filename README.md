@@ -159,7 +159,7 @@ During the development of this software, J.C.B. received stipend support from a 
 ## TODO LIST
 **Current:**
 
-- **Add capacity to extract posterior information for terminal nodes in MrBayes trees. This not only keeps us from being able to plot linear relationships between posterior support and proportion of data or missing data, but also bars us from conducting formal correlation tests of relationships with posterior nodal support. Currently, if the user wants to be able to examine relationships among all four variables of interest--terminal posterior nodal support, terminal branch lengths, proportion data, and proportion missing data, then they will have to conduct their analysis on a BEAST tree *only*.**
+- **Add capacity to extract posterior information for terminal nodes in MrBayes trees.** This not only keeps us from being able to plot linear relationships between posterior support and proportion of data or missing data, but also bars us from conducting formal correlation tests of relationships with posterior nodal support. Currently, if the user wants to be able to examine relationships among all four variables of interest--terminal posterior nodal support, terminal branch lengths, proportion data, and proportion missing data, then *they will have to conduct their analysis Only on a BEAST tree*.
 - **Provide more graphical output options:**
  o **Summaries of data/missing data proportions for different data blocks (though it's difficult to carry names of blocks/partitions into R).**
  o **Linear relationships between posterior support and data characteristics, at the level of blocks/partitions rather than individual nodes.** 
