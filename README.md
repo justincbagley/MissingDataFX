@@ -64,7 +64,7 @@ Code in the MissingDataFX repository depends on R and a series of R packages, as
 :computer: MissingDataFX uses UNIX shell and R scripts, thus runs on a variety of operating systems, but was especially designed with UNIX/LINUX-like systems in mind. MissingDataFX code should run "out-of-the-box" from most any folder on your machine. To 'install' MissingDataFX, download the repository, move into the repository folder and enter ```$ chmod u+x ./*.sh``` into the command line interface (e.g. Terminal app on Mac). This changes file mode bits in the .sh files to allow the user permission to access and execute them, which is an important prerequisite for the MissingDataFX code to run.
 
 ### Run directory structure
-:warning: MissingDataFX code assumes that you are running within a sub-folder specific to your analysis, located within the MissingDataFX-master distro folder. **Importantly**, as a result of this directory structure, the "R" folder from the distro, which contains a modified function for ips, will be located at the relative path "../R/". See README and in-script commenting for further details on file types and instructions for running basic analyses. Ideally, users will run MissingDataFX on multiple NEXUS-tree file combinations, for example 1) mtDNA only, 2) nuclear DNA only, 3) morphological characters only, and 4) all data combined--or a 'combined data' (mtDNA + nuclear) or 'total-evidence' (sequence + morphology) matrix and tree. Each of these analyses would be run within a separate sub-folder in the master distro folder.
+:warning: MissingDataFX code assumes that you are running within a sub-folder specific to your analysis, located within the MissingDataFX-master distro folder. **Importantly**, as a result of this directory structure, the "R" folder from the distro, which contains a modified function for ips, will be located at the relative path "../R/". Likewise, the "shell" folder of the distro will be located at relative path "../shell". See README and in-script commenting for further details on file types and instructions for running basic analyses. Ideally, users will run MissingDataFX on multiple NEXUS-tree file combinations, for example 1) mtDNA only, 2) nuclear DNA only, 3) morphological characters only, and 4) all data combined--or a 'combined data' (mtDNA + nuclear) or 'total-evidence' (sequence + morphology) matrix and tree. Each of these analyses would be run within a separate sub-folder in the master distro folder.
 
 ### Input files and filenames
 :warning: The main input files for MissingDataFX are NEXUS files, tree files, and 'drop' files. **This software assumes that the current working directory (i.e. sub-folder) for any particular run contains _ONLY_ the following files\:** 
@@ -104,41 +104,143 @@ We use this naming convention so that the tree filenames can be linked to the or
 Following several steps summarizing the NEXUS input file using operations in the shell, **MissingDataFX.sh** creates and runs a customized R script that loads the 'Interfaces to Phylogenetic Software in R' or 'ips' R package (plus my fixed version of one of its functions) and related phylogenetics packages, and then reads in the tree, plots the tree (and saves to file), extracts the node and branch length annotations into a matrix (also saved to file). Next, [Shapiro-Wilk tests](https://en.wikipedia.org/wiki/Shapiro–Wilk_test) are conducted to evaluate whether the log-transformed data and tree parameters meet normality criteria for subsequent analyses. Then MissingDataFX tests for correlations between the proportions of data or missing data and (y-axis/independent var.:) posterior support for terminal taxa and length of terminal branch (same as height estimate for terminal taxon tmrca/node, in case of BEAST chronograms). If the data are *normal* (Shapiro-Wilk tests were non-significant at the alpha = 0.05 level), regular [Pearson correlations](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) and [generalized linear modeling](https://en.wikipedia.org/wiki/Generalized_linear_model) analyses are conducted. However, if the data are *non-normal* (Shapiro-Wilk tests were significant), then correlations are conducted using nonparametric [Spearman's rank correlation coefficient](https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient) and linear relationships among log-transformed variables are plotted, but not given trendlines. Results are output to file in text or PDF (graphics) files. 
 
 ### Usage
-It's so easy to use, the MissingDataFX.sh script doesn't display any sophisticated Usage or help flag info yet, because it doesn't need to. Everything you need to know is given here in the README! Assuming that you have installed the dependencies and the repo and followed guidelines for input files above, you may run MissingDataFX by simply entering the script name at the command line and hitting return!
+It's so easy to use, the MissingDataFX.sh script doesn't display any sophisticated Usage or help flag info yet, because it doesn't need to! Everything you need to know is given here in the README! Assuming that you have installed the dependencies and the repo and followed guidelines for input files above, you may run MissingDataFX by simply entering the script name at the command line and hitting return!
 ```
 $ ./MissingDataFX.sh
 ```
-#### Screen output example:
-Here is an example, *from v0.1.0 release*, of what output to screen would look like for a normal MissingDataFX analysis including a NEXUS file and a MrBayes tree file with '.tree' extension, and no drop file:
+
+### Two run scenarios
+Note that there are two basic types of MissingDataFX runs, in practice: "regular" runs, and "repeat" runs. These are discussed next with screen output examples.
+
+#### "Regular run" example:
+Under normal conditions, MissingDataFX.sh runs without any errors. Here is an example of what output to screen would look like for a normal MissingDataFX analysis including a NEXUS file and a MrBayes tree file with '.tree' extension, and no drop file:
 ```
 $ ./MissingDataFX.sh
 
 ##########################################################################################
-#                            MissingDataFX v0.1.0, March 2017                            #
+#                            MissingDataFX v0.1.1, March 2017                            #
 ##########################################################################################
 
-INFO      | Tue Mar 14 15:35:18 CDT 2017 | Starting MissingDataFX analysis... 
-INFO      | Tue Mar 14 15:35:18 CDT 2017 | STEP #1: SETUP AND USER INPUT. 
-INFO      | Tue Mar 14 15:35:18 CDT 2017 |          Setting working directory to: /GitHub/MissingDataFX-master/run1 
-INFO      | Tue Mar 14 15:35:18 CDT 2017 |          Reading in input NEXUS file(s)... 
-INFO      | Tue Mar 14 15:35:18 CDT 2017 | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LABELS AND DATA BLOCKS INTO SEPARATE FILES. 
-INFO      | Tue Mar 14 15:35:18 CDT 2017 |          Catostomidae_4loci_new_forMrBayes.NEX 
-INFO      | Tue Mar 14 15:35:18 CDT 2017 | STEP #3: USING TAXON LABEL AND CONCATENATED SEQUENCE FILES GENERATED DURING PREVIOUS STEP TO CREATE ONE 
-INFO      | Tue Mar 14 15:35:18 CDT 2017 |          FILE WITH MISSING DATA COUNTS AND PROPORTIONS FOR EACH INDIVIDUAL. 
-INFO      | Tue Mar 14 15:35:19 CDT 2017 | STEP #4: PRE-PROCESSING MRBAYES CONSENSUS TREE INPUT FILE, IF PRESENT: SPLIT .con.tre FILE, EXTRACT 
-INFO      | Tue Mar 14 15:35:19 CDT 2017 |          TERMINAL BRANCH LENGTHS & THEIR CONFIDENCE INTERVALS, AND CREATE BRANCH LENGTH SUMMARY TABLE. 
-INFO      | Tue Mar 14 15:35:19 CDT 2017 |          Encountered one or more '.tree' files. Testing them... 
-INFO      | Tue Mar 14 15:35:19 CDT 2017 |          No '.con.tre' tree file in current working directory. Checking for '.tree' file... 
-INFO      | Tue Mar 14 15:35:19 CDT 2017 |          Your tree file looks like it is from MrBayes. Assuming MrBayes tree(s) available hereafter... 
-INFO      | Tue Mar 14 15:35:19 CDT 2017 |          Running mbTreeStatMiner script modified for '.tree' files... 
-INFO      | Tue Mar 14 15:35:19 CDT 2017 | STEP #5: MAKE R SCRIPT THAT A) EXTRACTS PARAMETER ESTIMATES FROM BEAST TREES OR READS IN MRBAYES DATA
-INFO      | Tue Mar 14 15:35:19 CDT 2017 |          TABLE (STEP #3) IN WORKING DIR THEN B) TESTS FOR IMPACT OF MISSING DATA ON PHYLO SUPPORT AND BRANCH LENGTHS. 
-INFO      | Tue Mar 14 15:35:19 CDT 2017 | STEP #6: RUN THE R SCRIPT (WHICH ALSO SAVES RESULTS TO FILE). 
-INFO      | Tue Mar 14 15:35:25 CDT 2017 | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. 
-INFO      | Tue Mar 14 15:35:25 CDT 2017 |          R workspace file confirmed in dir: /GitHub/MissingDataFX-master/run1  
-INFO      | Tue Mar 14 15:35:25 CDT 2017 | Done analyzing the amount and potential effects of missing data on phylogenetic support and branch 
-INFO      | Tue Mar 14 15:35:25 CDT 2017 | lengths using MissingDataFX. 
-INFO      | Tue Mar 14 15:35:25 CDT 2017 | Bye.
+INFO      | Wed Mar 15 15:04:03 CDT 2017 | Starting MissingDataFX analysis... 
+INFO      | Wed Mar 15 15:04:03 CDT 2017 | STEP #1: SETUP AND USER INPUT. 
+INFO      | Wed Mar 15 15:04:03 CDT 2017 |          Setting working directory to: /GitHub/MissingDataFX-master/regular_test 
+INFO      | Wed Mar 15 15:04:03 CDT 2017 |          Reading in input NEXUS file(s)... 
+INFO      | Wed Mar 15 15:04:03 CDT 2017 | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LABELS AND DATA BLOCKS INTO SEPARATE FILES. 
+INFO      | Wed Mar 15 15:04:03 CDT 2017 |          Catostomidae_4loci_new_forMrBayes.NEX 
+INFO      | Wed Mar 15 15:04:03 CDT 2017 | STEP #3: USING TAXON LABEL AND CONCATENATED SEQUENCE FILES GENERATED DURING PREVIOUS STEP TO CREATE ONE 
+INFO      | Wed Mar 15 15:04:03 CDT 2017 |          FILE WITH MISSING DATA COUNTS AND PROPORTIONS FOR EACH INDIVIDUAL. 
+INFO      | Wed Mar 15 15:04:04 CDT 2017 | STEP #4: PRE-PROCESSING MRBAYES CONSENSUS TREE INPUT FILE, IF PRESENT: SPLIT .con.tre FILE, EXTRACT 
+INFO      | Wed Mar 15 15:04:04 CDT 2017 |          TERMINAL BRANCH LENGTHS & THEIR CONFIDENCE INTERVALS, AND CREATE BRANCH LENGTH SUMMARY TABLE. 
+INFO      | Wed Mar 15 15:04:04 CDT 2017 |          Found '.con.tre' file. Reading in MrBayes consensus tree from current working directory... 
+INFO      | Wed Mar 15 15:04:04 CDT 2017 |          Running mbTreeStatMiner script... 
+INFO      | Wed Mar 15 15:04:04 CDT 2017 | STEP #5: MAKE R SCRIPT THAT A) EXTRACTS PARAMETER ESTIMATES FROM BEAST TREES OR READS IN MRBAYES DATA
+INFO      | Wed Mar 15 15:04:04 CDT 2017 |          TABLE (STEP #3) IN WORKING DIR THEN B) TESTS FOR IMPACT OF MISSING DATA ON PHYLO SUPPORT AND BRANCH LENGTHS. 
+INFO      | Wed Mar 15 15:04:04 CDT 2017 | STEP #6: RUN THE R SCRIPT (WHICH ALSO SAVES RESULTS TO FILE). 
+INFO      | Wed Mar 15 15:04:10 CDT 2017 | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. 
+INFO      | Wed Mar 15 15:04:10 CDT 2017 |          R workspace file confirmed in dir: /GitHub/MissingDataFX-master/regular_test 
+INFO      | Wed Mar 15 15:04:11 CDT 2017 | STEP #8: TEST RUN OUTPUT USING MDFXTester:  
+
+### RUNNING MDFXTester.sh ###
+
+DO GRAPHICS CHECK ON BASIC SCATTERPLOTS FROM R; IF FAILED, DO fetchTaxonLabels.sh FIX 
+AND COMPLETELY RERUN MissingDataFX SCRIPT. 
+     Passed graphics check. Moving on... 
+
+INFO      | Wed Mar 15 15:04:11 CDT 2017 | Done analyzing the amount and potential effects of missing data on phylogenetic support and branch 
+INFO      | Wed Mar 15 15:04:11 CDT 2017 | lengths using MissingDataFX. 
+INFO      | Wed Mar 15 15:04:11 CDT 2017 | Bye.
+
+```
+
+#### "Repeat run" example:
+Under error conditions, specifically when there are "No such file or directory" errors on ```sed``` and ```rm``` calls for '\*\_taxonLabels.txt' files under STEP \#3, this causes the final data files and R script graphics NOT to be generated. This was a bug in the previous/major version zero release. In the current release, I have fixed this problem by planning a "repeat run" scenario. I did this by adding scripts that check the initial MissingDataFX.sh run output (**MDFXTester.sh**), fix the problem by creating a "\*\_taxonLabels.txt" file (**fetchTaxonLabels.sh**), and then re-run MissingDataFX.sh on the sub-folder contents, completely from scratch! Although not a particularly elegant solution, it works until I have time to overcome the need to re-run the main script!! 
+
+Here is an example of what output to screen would look like during a "repeat run" of MissingDataFX:
+```
+$ ./MissingDataFX.sh 
+
+##########################################################################################
+#                            MissingDataFX v0.1.1, March 2017                            #
+##########################################################################################
+
+INFO      | Wed Mar 15 14:52:56 CDT 2017 | Starting MissingDataFX analysis... 
+INFO      | Wed Mar 15 14:52:56 CDT 2017 | STEP #1: SETUP AND USER INPUT. 
+INFO      | Wed Mar 15 14:52:56 CDT 2017 |          Setting working directory to: /GitHub/MissingDataFX-master/repeat_test 
+INFO      | Wed Mar 15 14:52:56 CDT 2017 |          Reading in input NEXUS file(s)... 
+INFO      | Wed Mar 15 14:52:56 CDT 2017 | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LABELS AND DATA BLOCKS INTO SEPARATE FILES. 
+INFO      | Wed Mar 15 14:52:56 CDT 2017 |          CatmtDNAonly_NoMt23_part_run1.nex 
+INFO      | Wed Mar 15 14:52:56 CDT 2017 | STEP #3: USING TAXON LABEL AND CONCATENATED SEQUENCE FILES GENERATED DURING PREVIOUS STEP TO CREATE ONE 
+INFO      | Wed Mar 15 14:52:56 CDT 2017 |          FILE WITH MISSING DATA COUNTS AND PROPORTIONS FOR EACH INDIVIDUAL. 
+sed: CatmtDNAonly_NoMt23_part_run1_taxonLabels.txt: No such file or directory
+rm: CatmtDNAonly_NoMt23_part_run1_taxonLabels.txt: No such file or directory
+INFO      | Wed Mar 15 14:52:56 CDT 2017 | STEP #4: PRE-PROCESSING MRBAYES CONSENSUS TREE INPUT FILE, IF PRESENT: SPLIT .con.tre FILE, EXTRACT 
+INFO      | Wed Mar 15 14:52:56 CDT 2017 |          TERMINAL BRANCH LENGTHS & THEIR CONFIDENCE INTERVALS, AND CREATE BRANCH LENGTH SUMMARY TABLE. 
+INFO      | Wed Mar 15 14:52:56 CDT 2017 |          Found '.con.tre' file. Reading in MrBayes consensus tree from current working directory... 
+INFO      | Wed Mar 15 14:52:56 CDT 2017 |          Running mbTreeStatMiner script... 
+INFO      | Wed Mar 15 14:52:57 CDT 2017 | STEP #5: MAKE R SCRIPT THAT A) EXTRACTS PARAMETER ESTIMATES FROM BEAST TREES OR READS IN MRBAYES DATA
+INFO      | Wed Mar 15 14:52:57 CDT 2017 |          TABLE (STEP #3) IN WORKING DIR THEN B) TESTS FOR IMPACT OF MISSING DATA ON PHYLO SUPPORT AND BRANCH LENGTHS. 
+INFO      | Wed Mar 15 14:52:57 CDT 2017 | STEP #6: RUN THE R SCRIPT (WHICH ALSO SAVES RESULTS TO FILE). 
+INFO      | Wed Mar 15 14:53:02 CDT 2017 | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. 
+usage: mv [-f | -i | -n] [-v] source target
+       mv [-f | -i | -n] [-v] source ... directory
+INFO      | Wed Mar 15 14:53:02 CDT 2017 |          R workspace file confirmed in dir: /GitHub/MissingDataFX-master/repeat_test 
+usage: mv [-f | -i | -n] [-v] source target
+       mv [-f | -i | -n] [-v] source ... directory
+INFO      | Wed Mar 15 14:53:03 CDT 2017 | STEP #8: TEST RUN OUTPUT USING MDFXTester: 
+
+### RUNNING MDFXTester.sh ###
+
+DO GRAPHICS CHECK ON BASIC SCATTERPLOTS FROM R; IF FAILED, DO fetchTaxonLabels.sh FIX 
+AND COMPLETELY RERUN MissingDataFX SCRIPT. 
+find: ../R_results/: No such file or directory
+     WARNING! FAILED graphics check. Running fetchTaxonLabels script, then re-running MissingDataFX.sh... 
+
+### RUNNING fetchTaxonLabels.sh ###
+
+Setting working directory to dir: 
+/GitHub/MissingDataFX-master/repeat_test
+Reading in input NEXUS file(s)... 
+Making a taxonLabels file for taxa in CatmtDNAonly_NoMt23_part_run1.nex 
+rm: ./missingDataFXTester.Rout: No such file or directory
+rm: ./MissingDataFX_R_Workspace.RData: No such file or directory
+rm: ./*.pdf: No such file or directory
+
+### RE-RUNNING MissingDataFX.sh!!! ###
+
+
+##########################################################################################
+#                            MissingDataFX v0.1.1, March 2017                            #
+##########################################################################################
+
+INFO      | Wed Mar 15 14:53:03 CDT 2017 | Starting MissingDataFX analysis... 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 | STEP #1: SETUP AND USER INPUT. 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 |          Setting working directory to: /GitHub/MissingDataFX-master/repeat_test 9/test 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 |          Reading in input NEXUS file(s)... 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LABELS AND DATA BLOCKS INTO SEPARATE FILES. 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 |          CatmtDNAonly_NoMt23_part_run1.nex 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 | STEP #3: USING TAXON LABEL AND CONCATENATED SEQUENCE FILES GENERATED DURING PREVIOUS STEP TO CREATE ONE 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 |          FILE WITH MISSING DATA COUNTS AND PROPORTIONS FOR EACH INDIVIDUAL. 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 | STEP #4: PRE-PROCESSING MRBAYES CONSENSUS TREE INPUT FILE, IF PRESENT: SPLIT .con.tre FILE, EXTRACT 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 |          TERMINAL BRANCH LENGTHS & THEIR CONFIDENCE INTERVALS, AND CREATE BRANCH LENGTH SUMMARY TABLE. 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 |          Found '.con.tre' file. Reading in MrBayes consensus tree from current working directory... 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 |          Running mbTreeStatMiner script... 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 | STEP #5: MAKE R SCRIPT THAT A) EXTRACTS PARAMETER ESTIMATES FROM BEAST TREES OR READS IN MRBAYES DATA
+INFO      | Wed Mar 15 14:53:03 CDT 2017 |          TABLE (STEP #3) IN WORKING DIR THEN B) TESTS FOR IMPACT OF MISSING DATA ON PHYLO SUPPORT AND BRANCH LENGTHS. 
+INFO      | Wed Mar 15 14:53:03 CDT 2017 | STEP #6: RUN THE R SCRIPT (WHICH ALSO SAVES RESULTS TO FILE). 
+INFO      | Wed Mar 15 14:53:09 CDT 2017 | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. 
+INFO      | Wed Mar 15 14:53:09 CDT 2017 |          R workspace file confirmed in dir: /GitHub/MissingDataFX-master/repeat_test 
+INFO      | Wed Mar 15 14:53:09 CDT 2017 | STEP #8: TEST RUN OUTPUT USING MDFXTester:  
+
+### RUNNING MDFXTester.sh ###
+
+DO GRAPHICS CHECK ON BASIC SCATTERPLOTS FROM R; IF FAILED, DO fetchTaxonLabels.sh FIX 
+AND COMPLETELY RERUN MissingDataFX SCRIPT. 
+     Passed graphics check. Moving on... 
+
+INFO      | Wed Mar 15 14:53:09 CDT 2017 | Done analyzing the amount and potential effects of missing data on phylogenetic support and branch 
+INFO      | Wed Mar 15 14:53:09 CDT 2017 | lengths using MissingDataFX. 
+INFO      | Wed Mar 15 14:53:09 CDT 2017 | Bye.
+
 ```
 
 ## TROUBLESHOOTING
@@ -161,7 +263,6 @@ During the development of this software, J.C.B. received stipend support from a 
 ## TODO LIST
 **Current:**
 
-- **Fix bug giving "No such file or directory" errors on ```sed``` and ```rm``` calls for '\*\_taxonLabels.txt' files under STEP \#3, which causes final data files and R script graphics NOT to be generated!**
 - **Add capacity to extract posterior information for terminal nodes in MrBayes trees.** This not only keeps us from being able to plot linear relationships between posterior support and proportion of data or missing data, but also bars us from conducting formal correlation tests of relationships with posterior nodal support. Currently, if the user wants to be able to examine relationships among all four variables of interest--terminal posterior nodal support, terminal branch lengths, proportion data, and proportion missing data, then *they will have to conduct their analysis Only on a BEAST tree*.
 - **Provide graphical summaries of data/missing data proportions for different data blocks (though it's difficult to carry names of blocks/partitions into R).**
 - **Provide graphical output showing linear relationships between posterior support and data characteristics, at the level of blocks/partitions rather than individual nodes.** 
@@ -170,6 +271,7 @@ During the development of this software, J.C.B. received stipend support from a 
 
 **Recently finished/fixed:**
 
+- Fix bug giving "No such file or directory" errors on ```sed``` and ```rm``` calls for '\*\_taxonLabels.txt' files under STEP \#3, which causes final data files and R script graphics NOT to be generated! **DONE!** :white_check_mark:
 - Solve two input file problem--accomodate MrBayes trees, in addition to BEAST MCC trees. **DONE!** :white_check_mark:
 - Allow MrBayes tree files with '.con.tre' or '.tree' extensions (previously automatically converted .con.tre to .tree). **DONE!** :white_check_mark:
 - Correct issue in R code with 'ALL data' dataframe name for the non-drop file case. **DONE!** :white_check_mark:
