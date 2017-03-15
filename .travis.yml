@@ -1,6 +1,27 @@
-sudo: required
-
+################################### ATTEMPT #3 (modified from contributor "hugovk" suggestions at URL: https://github.com/koalaman/shellcheck/wiki/TravisCI):
+# Use container-based infrastructure for quicker build start-up
 language: bash
+
+sudo: false
+
+addons:
+  apt:
+    sources:
+    - debian-sid    # Grab shellcheck from the Debian repo (o_O)
+    packages:
+    - shellcheck
+
+script:
+ - bash -c 'shopt -s globstar; shellcheck **/*.{sh,bash}'
+
+matrix:
+  fast_finish: true
+  
+  
+################################### ATTEMPT #1 (modified from contributor "ccztux" suggestions at URL: https://github.com/koalaman/shellcheck/wiki/TravisCI):
+## sudo: required
+
+## language: bash
 
 ## services:
 ##   - docker
@@ -21,8 +42,15 @@ language: bash
 
 
 
+################################### ATTEMPT #2 (simple, just bash):
+## sudo: required
+
+## language: bash
 
 
+
+
+################################### EXTRAS:
 ## notifications:
 ##   email:
 ##     on_success: change
