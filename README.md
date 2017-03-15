@@ -1,17 +1,17 @@
-# MissingDataFX 
+# MissingDataFX v0.1.1
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/fdc05f0a492d450582252c69ce37e341)](https://www.codacy.com/app/justincbagley/MissingDataFX?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justincbagley/MissingDataFX&amp;utm_campaign=Badge_Grade) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-green.svg?style=flat)](LICENSE)
 
 Testing effects of missing data on phylogenetic inferences 
 
 ## LICENSE
 
-All code within the MissingDataFX v0.1.0 repository is available "AS IS" under a generous GNU license. See the [LICENSE](LICENSE) file for more information.
+All code within the MissingDataFX v0.1.1 repository is available "AS IS" under a generous GNU license. See the [LICENSE](LICENSE) file for more information.
 
 ## CITATION
 
 If you use scripts from this repository as part of your published research, I require that you cite the repository as follows (also see DOI information below): 
   
-- Bagley, J.C. 2017. MissingDataFX v0.1.0. GitHub repository, Available at: http://github.com/justincbagley/MissingDataFX.
+- Bagley, J.C. 2017. MissingDataFX v0.1.1. GitHub repository, Available at: http://github.com/justincbagley/MissingDataFX.
 
 Alternatively, please provide the following link to this software repository in your manuscript:
 
@@ -19,9 +19,9 @@ Alternatively, please provide the following link to this software repository in 
 
 ## DOI
 
-The DOI for MissingDataFX v0.1.0, via [Zenodo](https://zenodo.org), is as follows: [![DOI](https://zenodo.org/badge/82145780.svg)](https://zenodo.org/badge/latestdoi/82145780). Here is an example of citing MissingDataFX using the DOI: 
+The DOI for MissingDataFX v0.1.1, via [Zenodo](https://zenodo.org), is as follows: [![DOI](https://zenodo.org/badge/82145780.svg)](https://zenodo.org/badge/latestdoi/82145780). Here is an example of citing MissingDataFX using the DOI: 
   
-  Bagley, J.C. 2017. MissingDataFX v0.1.0. GitHub package, Available at: http://doi.org/10.5281/zenodo.398992.
+  Bagley, J.C. 2017. MissingDataFX v0.1.1. GitHub package, Available at: http://doi.org/10.5281/zenodo.398992.
 
 ## CONTENTS
 
