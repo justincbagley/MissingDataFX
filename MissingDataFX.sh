@@ -1401,18 +1401,7 @@ echo "INFO      | $(date) | STEP #6: RUN THE R SCRIPT (WHICH ALSO SAVES RESULTS 
 R CMD BATCH ./missingDataFXTester.R
 
 
-echo "INFO      | $(date) | STEP #7: DO GRAPHICS CHECK ON BASIC SCATTERPLOTS FROM R; IF FAILED, DO fetchTaxonLabels.sh FIX AND RERUN RSCRIPT. "
-if [[ -n $(find . -name "basic_scatterplots.pdf" -type f) ]]; then
-	echo "INFO      | $(date) |          Passed graphics check. Moving on... "
-else
-	echo "WARNING!  | $(date) |          FAILED graphics check. Running fetchTaxonLabels script, then re-running missingDataFXTester.R... "
-	chmod u+x ../shell/fetchTaxonLabels.sh
-	../shell/fetchTaxonLabels.sh
-	#
-	R CMD BATCH ./missingDataFXTester.R
-fi
-
-echo "INFO      | $(date) | STEP #8: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. "
+echo "INFO      | $(date) | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSARY FILES. "
 ###### Make dir and organize NEXUS data into "NEXUS_data" sub-folder:
 	mkdir NEXUS_data
 	mv ./*_BIGSummary.txt ./*_propData.txt ./*_propMissing.txt ./*_propSummary.txt ./*_taxa.txt ./NEXUS_data/
@@ -1444,7 +1433,13 @@ echo "INFO      | $(date) | STEP #8: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSA
 	rm ./*_regCharCOUNTS.txt
 	rm ./*_gapChar.txt
 	rm ./*_missingChar.txt
-	
+		
+
+echo "INFO      | $(date) | STEP #8: TEST RUN OUTPUT USING MDFXTester, WHICH WILL RERUN MissingDataFX IF RESULTS ARE INCOMPLETE. "
+	chmod u+x ../shell/MDFXTester.sh
+	../shell/MDFXTester.sh
+
+
 echo "INFO      | $(date) | Done analyzing the amount and potential effects of missing data on phylogenetic support and branch "
 echo "INFO      | $(date) | lengths using MissingDataFX. "
 echo "INFO      | $(date) | Bye.
