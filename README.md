@@ -1,5 +1,5 @@
-# MissingDataFX
-Testing effects of missing data on phylogenetic inferences
+# MissingDataFX [![Codacy Badge](https://api.codacy.com/project/badge/Grade/fdc05f0a492d450582252c69ce37e341)](https://www.codacy.com/app/justincbagley/MissingDataFX?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justincbagley/MissingDataFX&amp;utm_campaign=Badge_Grade)
+Testing effects of missing data on phylogenetic inferences 
 
 ## LICENSE
 
