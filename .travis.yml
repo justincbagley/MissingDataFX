@@ -19,7 +19,7 @@ are considered to reflect best practices, thus supersedes shellcheck); 3) checki
 a number of 'SC2028' comments/errors refer to R script, so reflect fact that code uses UNIX shell
 commands and creates Rscript with R commands, creating mismatch between Travis CI lanaguage setting and
 code (two languages in script); and 4) 'SC2046' comments/errors can be ignored when a '$' sign encloses
-a number for calc function at start of script.
+numbers for calc function at start of script.
 "
 
 matrix:
