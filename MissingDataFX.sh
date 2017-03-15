@@ -1457,7 +1457,7 @@ echo "INFO      | $(date) | STEP #7: CLEANUP: ORGANIZE RESULTS, REMOVE UNNECESSA
 	if [[ -n $(find . -name "*_missingChar.txt" -type f) ]]; then rm ./*_missingChar.txt; fi
 		
 
-echo "INFO      | $(date) | STEP #8: TEST RUN OUTPUT USING MDFXTester, WHICH WILL RERUN MissingDataFX IF RESULTS ARE INCOMPLETE. "
+echo "INFO      | $(date) | STEP #8: TEST RUN OUTPUT USING MDFXTester: "
 	chmod u+x ../shell/MDFXTester.sh
 	../shell/MDFXTester.sh
 
