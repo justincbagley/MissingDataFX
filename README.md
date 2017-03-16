@@ -27,6 +27,7 @@ The DOI for MissingDataFX v0.1.1, via [Zenodo](https://zenodo.org), is as follow
 
 - [Introduction](https://github.com/justincbagley/MissingDataFX#introduction)
 - [Getting Started](https://github.com/justincbagley/MissingDataFX#getting-started)
+- [Output](https://github.com/justincbagley/MissingDataFX#output)
 - [Troubleshooting](https://github.com/justincbagley/MissingDataFX#troubleshooting)
 - [Acknowledgements](https://github.com/justincbagley/MissingDataFX#acknowledgements)
 - [References](https://github.com/justincbagley/MissingDataFX#references)
@@ -246,8 +247,7 @@ INFO      | Wed Mar 15 14:53:09 CDT 2017 | Bye.
 ```
 
 ## OUTPUT
-The software creates a number of different summary files, modified tree files (e.g. converts .con.tre to .tree), Rscript files and R output text and PDF graphics files, among others, and organizes the resulting files into the following four folders: "final_dataset",
-"mb_tree_stats", "NEXUS_data", "R_results". The contents of the main output of interest--the R output--varies slightly, depending on which type of tree file was supplied for anlaysis. 
+The software creates a number of different summary files, modified tree files (e.g. converts .con.tre to .tree), Rscript files and R output text and PDF graphics files (among others). Resulting files are organized by the scripts into the following four folders: "final_dataset", "mb_tree_stats", "NEXUS_data", "R_results". The contents of the main output of interest--the R output in R_results--varies slightly, depending on which type of tree file was supplied for anlaysis. 
 
 **If running on BEAST tree file, R_results will include:**
 - ladderized/nonladderized plots of phylogeny supplied to script, with node numbers; multipled rolled into single PDF file.
