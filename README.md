@@ -260,8 +260,8 @@ The software creates a number of different summary files, modified tree files (e
 **If running on MrBayes tree file, R_results will include THE SAME AS ABOVE, WITH THE FOLLOWING EXCEPTIONS:**
 - "basic_scatterplots.pdf" -- simple scatterplots of terminal branch lengths ~ proportion data, and terminal branch lengths ~ proportion missing data, rolled into a single PDF file. **NO POSTERIOR SUPPORT plots.** For example, you can get something like the following plots showing relationships of terminal branch lengths with data characteristics, for a ~5kb/4 locus, 126 tip taxa dataset:
 
-<a href="http://imgur.com/4zzUX1i"><img src="http://i.imgur.com/4zzUX1i.png" title="source: J. C. Bagley" width=300 height=300 /></a>
-<a href="http://i.imgur.com/B1zmChq"><img src="http://i.imgur.com/B1zmChq.png" title="source: J. C. Bagley" width=300 height=300 /></a>
+<a href="http://imgur.com/4zzUX1i"><img src="http://i.imgur.com/4zzUX1i.png" title="source: J. C. Bagley" width=50% height=50% align="center" /></a>
+<a href="http://i.imgur.com/B1zmChq"><img src="http://i.imgur.com/B1zmChq.png" title="source: J. C. Bagley" width=50% height=50% align="center" /></a>
 
 - Shapiro-Wilk p-values for the **three** variables summarized from MrBayes trees (above)
 
