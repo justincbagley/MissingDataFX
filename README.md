@@ -64,7 +64,9 @@ Code in the MissingDataFX repository depends on R and a series of R packages, as
 :computer: MissingDataFX uses UNIX shell and R scripts, thus runs on a variety of operating systems, but was especially designed with UNIX/LINUX-like systems in mind. MissingDataFX code should run "out-of-the-box" from most any folder on your machine. To 'install' MissingDataFX, download the repository, move into the repository folder and enter ```$ chmod u+x ./*.sh``` into the command line interface (e.g. Terminal app on Mac). This changes file mode bits in the .sh files to allow the user permission to access and execute them, which is an important prerequisite for the MissingDataFX code to run.
 
 ### Run directory structure
-:warning: MissingDataFX code assumes that you are running within a sub-folder specific to your analysis, located within the MissingDataFX-master distro folder. **Importantly**, as a result of this directory structure, the "R" folder from the distro, which contains a modified function for ips, will be located at the relative path "../R/". Likewise, the "shell" folder of the distro will be located at relative path "../shell". See README and in-script commenting for further details on file types and instructions for running basic analyses. Ideally, users will run MissingDataFX on multiple NEXUS-tree file combinations, for example 1) mtDNA only, 2) nuclear DNA only, 3) morphological characters only, and 4) all data combined--or a 'combined data' (mtDNA + nuclear) or 'total-evidence' (sequence + morphology) matrix and tree. Each of these analyses would be run within a separate sub-folder in the master distro folder.
+:warning: MissingDataFX code assumes that you are running within a sub-folder specific to your analysis, located within the MissingDataFX-master distro folder. **Importantly**, as a result of this directory structure, the "R" folder from the distro, which contains a modified function for ips, will be located at the relative path "../R/". Likewise, the "shell" folder of the distro, containing utility shell scripts, will be located at relative path "../shell". See README and in-script commenting for further details on file types and instructions for running basic analyses.
+
+Ideally, users will run MissingDataFX on multiple NEXUS-tree file combinations. For example, you might be interested in running on 1) mtDNA sequences only, 2) nuclear DNA sequences only, 3) morphological characters only, and 4) all data combined--or a 'combined data' (mtDNA + nuclear) or 'total-evidence' (sequence + morphology) matrix and tree. Each of these analyses would be run within a separate sub-folder in the master distro folder.
 
 ### Input files and filenames
 :warning: The main input files for MissingDataFX are NEXUS files, tree files, and 'drop' files. **This software assumes that the current working directory (i.e. sub-folder) for any particular run contains _ONLY_ the following files\:** 
@@ -92,11 +94,11 @@ Regarding tree files, let me say I'm very much a Bayesian, and my empirical rese
 #### Guidelines for input file NAMES
 For simplicity, all filenames supplied to MissingDataFX for a given analysis should have the same basename. A suitable set of files for analysis might look like the following example, where MY_BASENAME is the basename applied to all of the files:  
 
-| Input file type        | Example filename                                                    |
-| :--------------------- |:--------------------------------------------------------------------|
-| NEXUS file             | MY_BASENAME.nex                                                     |
+| Input file type        | Example filename                                                      |
+| :--------------------- |:----------------------------------------------------------------------|
+| NEXUS file             | MY_BASENAME.nex                                                       |
 | Tree file              | MY_BASENAME.tree (BEAST, MrBayes), *OR* MY_BASENAME.con.tre (MrBayes) |
-| Drop file              | MY_BASENAME.drop                                                    |
+| Drop file              | MY_BASENAME.drop                                                      |
 
 We use this naming convention so that the tree filenames can be linked to the original NEXUS input file(s) without conflicting with the NEXUS filenames used in other procedures used in the shell script.
 
@@ -242,6 +244,22 @@ INFO      | Wed Mar 15 14:53:09 CDT 2017 | lengths using MissingDataFX.
 INFO      | Wed Mar 15 14:53:09 CDT 2017 | Bye.
 
 ```
+
+## OUTPUT
+The software creates a number of different summary files, modified tree files (e.g. converts .con.tre to .tree), Rscript files and R output text and PDF graphics files, among others, and organizes the resulting files into the following four folders: "final_dataset",
+"mb_tree_stats", "NEXUS_data", "R_results". The contents of the main output of interest--the R output--varies slightly, depending on which type of tree file was supplied for anlaysis. 
+
+**If running on BEAST tree file, R_results will include:**
+- ladderized/nonladderized plots of phylogeny supplied to script, with node numbers; multipled rolled into single PDF file.
+- "basic_scatterplots.pdf" -- simple scatterplots of posterior ~ proportion data, posterior ~ proportion missing data, posterior ~ terminal branch lengths, terminal branch lengths ~ proportion data, and terminal branch lengths ~ proportion missing data, all rolled into a single PDF file.
+- "MissingDataFX_R_Workspace.RData" -- R workspace file, allowing you to open the environment of the Rscript run again in the R Console.
+- "missingDataFXTester.Rout" -- output of R Console log, including any error messages etc.
+- Shapiro-Wilk p-values for the four variables summarized from BEAST trees (above)
+- Parametric or non-parametric correlation test output
+
+**If running on MrBayes tree file, R_results will include THE SAME AS ABOVE, WITH THE FOLLOWING EXCEPTIONS:**
+- "basic_scatterplots.pdf" -- simple scatterplots of terminal branch lengths ~ proportion data, and terminal branch lengths ~ proportion missing data, rolled into a single PDF file. **NO POSTERIOR SUPPORT plots.**
+- Shapiro-Wilk p-values for the **three** variables summarized from MrBayes trees (above)
 
 ## TROUBLESHOOTING
 How to troubleshoot some potentially common problems:
