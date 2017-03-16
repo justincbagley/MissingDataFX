@@ -258,7 +258,8 @@ The software creates a number of different summary files, modified tree files (e
 - Parametric or non-parametric correlation test output
 
 **If running on MrBayes tree file, R_results will include THE SAME AS ABOVE, WITH THE FOLLOWING EXCEPTIONS:**
-- "basic_scatterplots.pdf" -- simple scatterplots of terminal branch lengths ~ proportion data, and terminal branch lengths ~ proportion missing data, rolled into a single PDF file. **NO POSTERIOR SUPPORT plots.**
+- "basic_scatterplots.pdf" -- simple scatterplots of terminal branch lengths ~ proportion data, and terminal branch lengths ~ proportion missing data, rolled into a single PDF file. **NO POSTERIOR SUPPORT plots.** For example, you can get something like the following plot of terminal branch lengths against proportion missing data for a ~5kb/4 locus dataset for 126 tip taxa:
+<a href="http://imgur.com/4zzUX1i"><img src="http://i.imgur.com/4zzUX1i.png" title="source: imgur.com" /></a>
 - Shapiro-Wilk p-values for the **three** variables summarized from MrBayes trees (above)
 
 ## TROUBLESHOOTING
@@ -285,10 +286,12 @@ During the development of this software, J.C.B. received stipend support from a 
 - **Provide graphical summaries of data/missing data proportions for different data blocks (though it's difficult to carry names of blocks/partitions into R).**
 - **Provide graphical output showing linear relationships between posterior support and data characteristics, at the level of blocks/partitions rather than individual nodes.** 
 - Modify to accomodate and extract parameters from annotated maximum-likelihood trees from programs like RAxML (check extent and format of branch/node labels on ML trees from different programs).
-- Add screenshots of R analyses, as well as example text and graphical output produced by the software.
+- Add screenshots/files of example R analyses or code
+- Add screenshots/files of example text and graphical output produced by R, as directed by the scripts.
 
 **Recently finished/fixed:**
 
+- Fix bug where bivariate relationships of posterior nodal support with other variables were not being plotted. **DONE!** :white_check_mark: 
 - Fix bug giving "No such file or directory" errors on ```sed``` and ```rm``` calls for '\*\_taxonLabels.txt' files under STEP \#3, which causes final data files and R script graphics NOT to be generated! **DONE!** :white_check_mark:
 - Solve two input file problem--accomodate MrBayes trees, in addition to BEAST MCC trees. **DONE!** :white_check_mark:
 - Allow MrBayes tree files with '.con.tre' or '.tree' extensions (previously automatically converted .con.tre to .tree). **DONE!** :white_check_mark:
