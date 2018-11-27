@@ -31,9 +31,9 @@ echo "INFO      | $(date) |          Setting working directory to: $MY_PATH "
 }
 
 echo "INFO      | $(date) |          Reading in input NEXUS file(s)... "
-###### Read in the NEXUS file(s), by getting filenames matching .nex or .NEX patterns.
+###### Read in the NEXUS file(s), by getting filenames matching .nex- or .nexus-type patterns.
 
-	MY_NEXUS_FILES="$(find . \( -name "*.nex" -o -name "*.NEX" -o -name "*.Nex" \) -type f | sed 's/\.\///g')"
+	MY_NEXUS_FILES="$(find . \( -name "*.nex" -o -name "*.NEX" -o -name "*.Nex" -o -name "*.nexus" -o -name "*.NEXUS" \) -type f | sed 's/\.\///g')"
 
 echo "INFO      | $(date) | STEP #2: PROCESSING INPUT NEXUS, SPLITTING TAXON LABELS AND DATA BLOCKS INTO SEPARATE FILES. "
 ###### Several things to do here. First, 1) is the data interleaved? Extract info on whether 
