@@ -20,7 +20,7 @@ echo "$MY_PATH "
 
 echo "Reading in input NEXUS file(s)... "
 ###### Read in the NEXUS file(s), by getting filenames matching .nex or .NEX patterns. 
-	MY_NEXUS_FILES="$(find . \( -name "*.nex" -o -name "*.NEX" -o -name "*.Nex" \) -type f | sed 's/\.\///g')"
+	MY_NEXUS_FILES="$(find . \( -name "*.nex" -o -name "*.NEX" -o -name "*.Nex" -o -name "*.nexus" -o -name "*.NEXUS" \) -type f | sed 's/\.\///g')"
 
 
 ###### STEP #2: MAKE AND RUN SCRIPT TO FETCH TAXON LABELS AND SAVE TO FILE.
