@@ -4,7 +4,7 @@
 #                            MissingDataFX v0.1.1, March 2017                            #
 #   SHELL SCRIPT FOR CONDUCTING TESTS OF THE EFFECTS OF MISSING DATA ON PHYLOGENETIC     #
 #   ANALYSES (NODAL SUPPORT, BRANCH LENGTHS)                                             #
-#   Copyright (c)2017 Justin C. Bagley, Universidade de Brasília, Brasília, DF, Brazil.  #
+#   Copyright (c)2016-2019 Justin C. Bagley. All rights reserved.                        #
 #   See the README and license files on GitHub (http://github.com/justincbagley) for     #
 #   further information. Last update: March 15, 2017. For questions, please email        #
 #   jcbagley@unb.br.                                                                     #
