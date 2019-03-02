@@ -6,7 +6,7 @@ Testing effects of missing data on phylogenetic inferences
 
 ## LICENSE
 
-All code within the MissingDataFX v0.1.1 repository is available "AS IS" under a generous GNU license. See the [LICENSE](LICENSE) file for more information.
+All code within the MissingDataFX v0.1.1 repository is available "AS IS" under a generous 3-Clause BSD license. See the [LICENSE](LICENSE) file for more information.
 
 ## CITATION
 
